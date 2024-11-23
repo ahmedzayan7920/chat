@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "306952175147",
+    "project_id": "zayan-training-chat",
+    "storage_bucket": "zayan-training-chat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306952175147:android:a5d73e0467f84a1fd4b46e",
+        "android_client_info": {
+          "package_name": "com.training.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBHEdH7FiLrSG470rvw-eZ88mQo8Pyzic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
