@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:chat/core/utils/app_strings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,8 @@ class NotificationService {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         _showLocalNotification(
-          title: message.notification?.title ?? 'No Title',
-          body: message.notification?.body ?? 'No Body',
+          title: message.notification?.title ?? AppStrings.noTitle,
+          body: message.notification?.body ?? AppStrings.noBody,
         );
       }
     });
