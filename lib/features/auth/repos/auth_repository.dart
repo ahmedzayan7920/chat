@@ -14,8 +14,11 @@ abstract class AuthRepository {
     required String password,
   });
 
+  Future<Either<Failure, UserModel>> loginWithGoogle();
+
+  Future<Either<Failure, UserModel>> loginWithFacebook();
+
   Future<Either<Failure, Unit>> logout();
 
   Future<Either<Failure, UserModel?>> getCurrentUser();
-
 }

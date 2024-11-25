@@ -60,6 +60,25 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, UserModel>> loginWithGoogle() async {
+    final authResult = await _authDataSource.loginWithGoogle();
+
+    return authResult.fold(
+      (failure) => Either.left(failure),
+      (user) async => await _userDataSource.fetchOrSaveUser(user),
+    );
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> loginWithFacebook() async {
+    final authResult = await _authDataSource.loginWithFacebook();
+    return authResult.fold(
+      (failure) => Either.left(failure),
+      (user) async => await _userDataSource.fetchOrSaveUser(user),
+    );
+  }
+
+  @override
   Future<Either<Failure, Unit>> logout() async {
     return await _authDataSource.logout();
   }
@@ -78,5 +97,4 @@ class FirebaseAuthRepository implements AuthRepository {
       (userModel) => Either.right(userModel),
     );
   }
-
 }
