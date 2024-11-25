@@ -57,6 +57,28 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  Future<void> loginWithGoogle() async {
+    emit(const AuthLoadingState());
+
+    final result = await _authRepository.loginWithGoogle();
+
+    result.fold(
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (user) => emit(AuthenticatedState(user: user)),
+    );
+  }
+
+  Future<void> loginWithFacebook() async {
+    emit(const AuthLoadingState());
+
+    final result = await _authRepository.loginWithFacebook();
+
+    result.fold(
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (user) => emit(AuthenticatedState(user: user)),
+    );
+  }
+
   Future<void> register(String name, String email, String password) async {
     emit(const AuthLoadingState());
 
