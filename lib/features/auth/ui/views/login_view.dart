@@ -1,3 +1,4 @@
+import 'package:chat/features/auth/ui/widgets/login/social_login_section.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/app_strings.dart';
@@ -35,6 +36,7 @@ class LoginView extends StatelessWidget {
                 const LoginForm(),
                 const VerticalSpace(height: 16),
                 const NoAccountSection(),
+                const SocialLoginSection(),
               ],
             ),
           ),

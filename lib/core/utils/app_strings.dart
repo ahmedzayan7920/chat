@@ -6,30 +6,30 @@ abstract class AppStrings {
   static const noTitle = 'No Title';
   static const noBody = 'No Body';
 
-  static String get nameHint => "Name";
-  static String get emailHint => "Email";
-  static String get passwordHint => "Password";
-  static String get confirmPasswordHint => "Confirm Password";
+  static const String nameHint = "Name";
+  static const String emailHint = "Email";
+  static const String passwordHint = "Password";
+  static const String confirmPasswordHint = "Confirm Password";
 
-  static String get emailRequired => "Email is required";
-  static String get emailInvalid => "Enter a valid email";
-  static String get passwordRequired => "Password is required";
-  static String get passwordMinLength => "Must be at least 8 characters";
-  static String get passwordOneLowerCase => "Must contain a lowercase letter";
-  static String get passwordOneUpperCase => "Must contain an uppercase letter";
-  static String get passwordOneSpecialChar => "Must contain a special character";
-  static String get passwordOneNumber => "Must contain at least one number";
-  
-  static String get welcomeBack => "Welcome back!";
-  static String get login => "Login";
-  static String get noAccount => "Don't have an account?";
-  static String get registerNow => "Register Now";
+  static const String emailRequired = "Email is required";
+  static const String emailInvalid = "Enter a valid email";
+  static const String passwordRequired = "Password is required";
+  static const String passwordMinLength = "Must be at least 8 characters";
+  static const String passwordOneLowerCase = "Must contain a lowercase letter";
+  static const String passwordOneUpperCase = "Must contain an uppercase letter";
+  static const String passwordOneSpecialChar =
+      "Must contain a special character";
+  static const String passwordOneNumber = "Must contain at least one number";
 
-  static String get registerStart => "Let's get started!";
-  static String get register => "Register";
-  static String get alreadyHaveAccount => "Already have an account?";
-  static String get loginNow => "Login Now";
+  static const String welcomeBack = "Welcome back!";
+  static const String login = "Login";
+  static const String noAccount = "Don't have an account?";
+  static const String registerNow = "Register Now";
 
+  static const String registerStart = "Let'const s started!";
+  static const String register = "Register";
+  static const String alreadyHaveAccount = "Already have an account?";
+  static const String loginNow = "Login Now";
 
   static const String nameRequired = "Name is required.";
   static const String nameInvalid = "Name can only contain letters and spaces.";
@@ -37,4 +37,6 @@ abstract class AppStrings {
 
   static const String confirmPasswordRequired = "Please confirm your password.";
   static const String passwordsDoNotMatch = "Passwords do not match.";
+
+  static const String loginWith = "Or login with";
 }

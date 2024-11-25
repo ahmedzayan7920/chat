@@ -4,8 +4,10 @@ import 'package:chat/features/auth/data_sources/auth_data_source.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../features/auth/data_sources/firebase_auth_data_source.dart';
 import '../../features/auth/repos/auth_repository.dart';
@@ -32,6 +34,14 @@ void setupDependencyInjection() {
     () => FirebaseFirestore.instance,
   );
 
+  getIt.registerLazySingleton<GoogleSignIn>(
+    () => GoogleSignIn(),
+  );
+
+  getIt.registerLazySingleton<FacebookAuth>(
+    () => FacebookAuth.instance,
+  );
+
   // Register services
   getIt.registerLazySingleton<NotificationService>(
     () => NotificationService(messaging: getIt(), localNotifications: getIt()),
@@ -43,7 +53,11 @@ void setupDependencyInjection() {
   );
 
   getIt.registerLazySingleton<AuthDataSource>(
-    () => FirebaseAuthDataSource(auth: getIt()),
+    () => FirebaseAuthDataSource(
+      auth: getIt(),
+      googleSignIn: getIt(),
+      facebookAuth: getIt(),
+    ),
   );
 
   // Register repositories
