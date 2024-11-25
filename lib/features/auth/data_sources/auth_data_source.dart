@@ -13,6 +13,10 @@ abstract class AuthDataSource {
     required String password,
   });
 
+  Future<Either<Failure, User>> loginWithGoogle();
+
+  Future<Either<Failure, User>> loginWithFacebook();
+
   Future<Either<Failure, Unit>> logout();
 
   User? getCurrentUser();
