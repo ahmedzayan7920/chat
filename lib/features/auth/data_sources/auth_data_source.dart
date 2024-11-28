@@ -17,6 +17,15 @@ abstract class AuthDataSource {
 
   Future<Either<Failure, User>> loginWithFacebook();
 
+  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
+    required String phoneNumber,
+  });
+
+  Future<Either<Failure, User>> verifyOtpCode({
+    required String verificationId,
+    required String otp,
+  });
+
   Future<Either<Failure, Unit>> logout();
 
   User? getCurrentUser();
