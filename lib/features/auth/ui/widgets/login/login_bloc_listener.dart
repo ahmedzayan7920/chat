@@ -22,6 +22,11 @@ class LoginBlocListener extends StatelessWidget {
           );
         } else if (state is AuthErrorState) {
           showSnackBar(context, state.message);
+        } else if (state is OtpSentState) {
+          Navigator.of(context).pushNamed(
+            AppRoutes.phoneOtp,
+            arguments: state.verificationId,
+          );
         }
       },
       child: const SizedBox.shrink(),

@@ -1,4 +1,5 @@
 import 'package:chat/core/utils/app_images.dart';
+import 'package:chat/core/utils/app_routes.dart';
 import 'package:chat/core/utils/app_strings.dart';
 import 'package:chat/core/widgets/spaces.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,13 @@ class SocialLoginSection extends StatelessWidget {
               image: AppImages.facebookSvg,
               onTap: () {
                 context.read<AuthCubit>().loginWithFacebook();
+              },
+            ),
+            const HorizontalSpace(width: 16),
+            SocialItem(
+              image: AppImages.phoneSvg,
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.phoneAuth);
               },
             ),
           ],

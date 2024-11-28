@@ -1,6 +1,4 @@
 import 'package:chat/features/auth/logic/auth_cubit.dart';
-import 'package:chat/features/auth/ui/views/login_view.dart';
-import 'package:chat/features/home/ui/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +6,8 @@ import 'core/di/dependency_injection.dart';
 import 'core/themes/app_theme.dart';
 import 'core/utils/app_router.dart';
 import 'features/auth/logic/auth_state.dart';
+import 'features/auth/ui/views/login_view.dart';
+import 'features/home/ui/views/home_view.dart';
 
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});

@@ -39,4 +39,11 @@ abstract class AppStrings {
   static const String passwordsDoNotMatch = "Passwords do not match.";
 
   static const String loginWith = "Or login with";
+
+  static const String phoneNumber = "Phone Number";
+  static const String userIsNull = "User is null.";
+  static const String autoVerificationFailed = "Auto-verification failed: $userIsNull";
+
+  static const String verifyPhoneNumber = "Verify Phone Number";
+  static const String verifyOtp = "Verify OTP";
 }

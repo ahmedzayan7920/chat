@@ -1,3 +1,5 @@
+import 'package:chat/features/auth/ui/views/phone_auth_view.dart';
+import 'package:chat/features/auth/ui/views/phone_otp_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/ui/views/login_view.dart';
@@ -12,8 +14,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginView());
       case AppRoutes.register:
         return MaterialPageRoute(builder: (_) => const RegisterView());
+      case AppRoutes.phoneAuth:
+        return MaterialPageRoute(builder: (_) => const PhoneAuthView());
+      case AppRoutes.phoneOtp:
+      final verificationId = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) =>  PhoneOtpView(verificationId: verificationId));
       case AppRoutes.home:
-
         return MaterialPageRoute(builder: (_) => const HomeView());
       default:
         return MaterialPageRoute(
