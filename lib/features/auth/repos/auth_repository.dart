@@ -18,6 +18,15 @@ abstract class AuthRepository {
 
   Future<Either<Failure, UserModel>> loginWithFacebook();
 
+  Future<Either<Failure, Either<String, UserModel>>> verifyPhoneNumber({
+    required String phoneNumber,
+  });
+
+  Future<Either<Failure, UserModel>> verifyOtpCode({
+    required String verificationId,
+    required String otp,
+  });
+
   Future<Either<Failure, Unit>> logout();
 
   Future<Either<Failure, UserModel?>> getCurrentUser();
