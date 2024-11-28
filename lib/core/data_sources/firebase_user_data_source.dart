@@ -1,6 +1,5 @@
 import 'package:chat/core/utils/app_strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
@@ -47,22 +46,16 @@ class FirebaseUserDataSource implements UserDataSource {
   }
 
   @override
-  Future<Either<Failure, UserModel>> fetchOrSaveUser(User user) async {
-    final fetchResult = await fetchUserFromDatabase(user.uid);
+  Future<Either<Failure, UserModel>> fetchOrSaveUser(
+      UserModel userModel) async {
+    final fetchResult = await fetchUserFromDatabase(userModel.id);
 
     return fetchResult.fold(
       (failure) async {
-        UserModel newUser = UserModel(
-          id: user.uid,
-          name: user.displayName ?? AppStrings.emptyString,
-          email: user.email ?? AppStrings.emptyString,
-          profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
-        );
-
-        final saveResult = await storeUserToDatabase(newUser);
+        final saveResult = await storeUserToDatabase(userModel);
         return saveResult.fold(
           (saveFailure) => Either.left(saveFailure),
-          (_) => Either.right(newUser),
+          (_) => Either.right(userModel),
         );
       },
       (existingUser) => Either.right(existingUser),
