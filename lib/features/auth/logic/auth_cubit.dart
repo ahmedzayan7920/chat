@@ -26,9 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await _authRepository.getCurrentUser();
     result.fold(
-      (failure) {
-        emit(const UnauthenticatedState());
-      },
+      (failure) => emit(const UnauthenticatedState()),
       (user) {
         if (user != null) {
           emit(AuthenticatedState(user: user));
@@ -48,12 +46,8 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) {
-        emit(AuthErrorState(message: failure.message));
-      },
-      (user) {
-        emit(AuthenticatedState(user: user));
-      },
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (user) => emit(AuthenticatedState(user: user)),
     );
   }
 
@@ -89,12 +83,44 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) {
-        emit(AuthErrorState(message: failure.message));
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (user) => emit(AuthenticatedState(user: user)),
+    );
+  }
+
+  Future<void> verifyPhoneNumber(String phoneNumber) async {
+    emit(const AuthLoadingState());
+
+    final result = await _authRepository.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+    );
+
+    result.fold(
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (verificationResult) {
+        verificationResult.fold(
+          (verificationId) =>
+              emit(OtpSentState(verificationId: verificationId)),
+          (user) => emit(AuthenticatedState(user: user)),
+        );
       },
-      (user) {
-        emit(AuthenticatedState(user: user));
-      },
+    );
+  }
+
+  Future<void> verifyOtpCode({
+    required String verificationId,
+    required String otp,
+  }) async {
+    emit(const OtpVerificationInProgressState());
+
+    final result = await _authRepository.verifyOtpCode(
+      verificationId: verificationId,
+      otp: otp,
+    );
+
+    result.fold(
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (user) => emit(AuthenticatedState(user: user)),
     );
   }
 
@@ -104,12 +130,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await _authRepository.logout();
 
     result.fold(
-      (failure) {
-        emit(AuthErrorState(message: failure.message));
-      },
-      (_) {
-        emit(const UnauthenticatedState());
-      },
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (_) => emit(const UnauthenticatedState()),
     );
   }
 }

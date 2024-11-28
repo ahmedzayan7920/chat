@@ -27,3 +27,13 @@ class AuthErrorState extends AuthState {
 
   const AuthErrorState({required this.message});
 }
+
+class OtpSentState extends AuthState {
+  final String verificationId;
+
+  const OtpSentState({required this.verificationId});
+}
+
+class OtpVerificationInProgressState extends AuthState {
+  const OtpVerificationInProgressState();
+}
