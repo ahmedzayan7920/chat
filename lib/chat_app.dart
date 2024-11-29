@@ -1,4 +1,5 @@
 import 'package:chat/features/auth/logic/auth_cubit.dart';
+import 'package:chat/features/notification/repos/notification_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +24,10 @@ class ChatApp extends StatelessWidget {
         home: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthenticatedState) {
+              getIt<NotificationRepository>().initialize();
               return const HomeView();
             } else {
+              getIt<NotificationRepository>().dispose();
               return const LoginView();
             }
           },
