@@ -29,13 +29,11 @@ class FirebaseAuthRepository implements AuthRepository {
     return authResult.fold(
       (failure) => Either.left(failure),
       (user) async {
-        final userModel = UserModel(
+        final userModel = UserModel.newUser(
           id: user.uid,
           name: name,
           email: email,
-          profilePictureUrl: AppStrings.emptyString,
         );
-
         final saveResult = await _userDataSource.storeUserToDatabase(userModel);
         return saveResult.fold(
           (failure) => Either.left(failure),
@@ -66,7 +64,7 @@ class FirebaseAuthRepository implements AuthRepository {
     return authResult.fold(
       (failure) => Either.left(failure),
       (user) async {
-        UserModel userModel = UserModel(
+        final userModel = UserModel.newUser(
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
@@ -83,7 +81,7 @@ class FirebaseAuthRepository implements AuthRepository {
     return authResult.fold(
       (failure) => Either.left(failure),
       (user) async {
-        UserModel userModel = UserModel(
+        final userModel = UserModel.newUser(
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
@@ -107,7 +105,7 @@ class FirebaseAuthRepository implements AuthRepository {
         return value.fold(
           (verificationId) => Either.right(Either.left(verificationId)),
           (user) async {
-            UserModel userModel = UserModel(
+            final userModel = UserModel.newUser(
               id: user.uid,
               name: user.displayName ?? AppStrings.emptyString,
               email: user.email ?? AppStrings.emptyString,
@@ -140,7 +138,7 @@ class FirebaseAuthRepository implements AuthRepository {
     return result.fold(
       (failure) => Either.left(failure),
       (user) async {
-        UserModel userModel = UserModel(
+        final userModel = UserModel.newUser(
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,

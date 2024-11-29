@@ -34,6 +34,26 @@ class UserModel {
     required this.status,
   });
 
+  factory UserModel.newUser({
+    required String id,
+    required String name,
+    required String email,
+    String? profilePictureUrl,
+    String? status,
+    List<String>? fcmTokens,
+  }) {
+    return UserModel(
+      id: id,
+      name: name,
+      email: email,
+      profilePictureUrl: profilePictureUrl ?? AppStrings.emptyString,
+      isOnline: true,
+      lastSeen: DateTime.now().millisecondsSinceEpoch,
+      fcmTokens: fcmTokens ?? [],
+      status: status ?? AppStrings.defaultUserStatus,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       UserModelKeys.id: id,
