@@ -46,4 +46,6 @@ abstract class AppStrings {
 
   static const String verifyPhoneNumber = "Verify Phone Number";
   static const String verifyOtp = "Verify OTP";
+
+  static const String defaultUserStatus = "Hey there! I am using ChatApp.";
 }
