@@ -1,8 +1,16 @@
-abstract class UserModelKeys{
+import 'package:flutter/foundation.dart';
+
+import '../utils/app_strings.dart';
+
+abstract class UserModelKeys {
   static const id = 'id';
   static const name = 'name';
   static const email = 'email';
   static const profilePictureUrl = 'profilePictureUrl';
+  static const isOnline = 'isOnline';
+  static const lastSeen = 'lastSeen';
+  static const fcmTokens = 'fcmTokens';
+  static const status = 'status';
 }
 
 class UserModel {
@@ -10,48 +18,74 @@ class UserModel {
   final String name;
   final String email;
   final String profilePictureUrl;
+  final bool isOnline;
+  final int lastSeen;
+  final List<String> fcmTokens;
+  final String status;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
     required this.profilePictureUrl,
+    required this.isOnline,
+    required this.lastSeen,
+    required this.fcmTokens,
+    required this.status,
   });
 
-  UserModel copyWith({
-    String? name,
-    String? profilePictureUrl,
-    String? bio,
-  }) {
-    return UserModel(
-      id: id,
-      name: name ?? this.name,
-      email: email,
-      profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
+    return {
       UserModelKeys.id: id,
       UserModelKeys.name: name,
       UserModelKeys.email: email,
       UserModelKeys.profilePictureUrl: profilePictureUrl,
+      UserModelKeys.isOnline: isOnline,
+      UserModelKeys.lastSeen: lastSeen,
+      UserModelKeys.fcmTokens: fcmTokens,
+      UserModelKeys.status: status,
     };
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> map) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: map[UserModelKeys.id] as String,
-      name: map[UserModelKeys.name] as String,
-      email: map[UserModelKeys.email] as String,
-      profilePictureUrl: map[UserModelKeys.profilePictureUrl] as String,
+      id: json[UserModelKeys.id] ?? AppStrings.emptyString,
+      name: json[UserModelKeys.name] ?? AppStrings.emptyString,
+      email: json[UserModelKeys.email] ?? AppStrings.emptyString,
+      profilePictureUrl:
+          json[UserModelKeys.profilePictureUrl] ?? AppStrings.emptyString,
+      isOnline: json[UserModelKeys.isOnline] ?? false,
+      lastSeen: json[UserModelKeys.lastSeen] ?? 0,
+      fcmTokens: List<String>.from(json[UserModelKeys.fcmTokens] ?? []),
+      status: json[UserModelKeys.status] ?? AppStrings.emptyString,
+    );
+  }
+
+  UserModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? profilePictureUrl,
+    bool? isOnline,
+    int? lastSeen,
+    List<String>? fcmTokens,
+    String? status,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
+      isOnline: isOnline ?? this.isOnline,
+      lastSeen: lastSeen ?? this.lastSeen,
+      fcmTokens: fcmTokens ?? this.fcmTokens,
+      status: status ?? this.status,
     );
   }
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, profilePictureUrl: $profilePictureUrl)';
+    return 'UserModel(id: $id, name: $name, email: $email, profilePictureUrl: $profilePictureUrl, isOnline: $isOnline, lastSeen: $lastSeen, fcmTokens: $fcmTokens, status: $status)';
   }
 
   @override
@@ -61,7 +95,11 @@ class UserModel {
     return other.id == id &&
         other.name == name &&
         other.email == email &&
-        other.profilePictureUrl == profilePictureUrl;
+        other.profilePictureUrl == profilePictureUrl &&
+        other.isOnline == isOnline &&
+        other.lastSeen == lastSeen &&
+        listEquals(other.fcmTokens, fcmTokens) &&
+        other.status == status;
   }
 
   @override
@@ -69,6 +107,10 @@ class UserModel {
     return id.hashCode ^
         name.hashCode ^
         email.hashCode ^
-        profilePictureUrl.hashCode;
+        profilePictureUrl.hashCode ^
+        isOnline.hashCode ^
+        lastSeen.hashCode ^
+        fcmTokens.hashCode ^
+        status.hashCode;
   }
 }
