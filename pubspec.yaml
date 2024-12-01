@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^2.0.15
   get_it: ^8.0.2
   google_sign_in: ^6.2.2
+  intl: ^0.20.1
   pinput: ^5.0.0
   uuid: ^4.5.1
 

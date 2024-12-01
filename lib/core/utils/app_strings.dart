@@ -52,4 +52,6 @@ abstract class AppStrings {
   static const String noChats = "No chats found";
   static const String users = "Users";
   static const String sendMessageHint = "Type a message...";
+  static const String today = "Today";
+  static const String yesterday = "Yesterday";
 }
