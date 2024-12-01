@@ -1,10 +1,10 @@
 import 'package:chat/core/utils/app_strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../core/models/either.dart';
-import '../../../core/models/failure.dart';
-import '../../../core/models/user_model.dart';
-import '../utils/firebase_constants.dart';
+import '../../../../core/models/either.dart';
+import '../../../../core/models/failure.dart';
+import '../../../../core/models/user_model.dart';
+import '../../../core/utils/firebase_constants.dart';
 import 'user_data_source.dart';
 
 class FirebaseUserDataSource implements UserDataSource {
@@ -60,5 +60,26 @@ class FirebaseUserDataSource implements UserDataSource {
       },
       (existingUser) => Either.right(existingUser),
     );
+  }
+  
+  @override
+  Future<Either<Failure, List<UserModel>>> fetchAllUsers() async {
+    try {
+      final userDoc = await _firestore
+          .collection(FirebaseConstants.users)
+          .get();
+
+      if (userDoc.docs.isNotEmpty) {
+        return Either.right(
+          userDoc.docs
+              .map((doc) => UserModel.fromJson(doc.data()))
+              .toList(),
+        );
+      } else {
+        return Either.left(const Failure(AppStrings.userNotFound));
+      }
+    } catch (e) {
+      return Either.left(Failure.fromException(e));
+    }
   }
 }

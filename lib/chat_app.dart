@@ -8,7 +8,7 @@ import 'core/themes/app_theme.dart';
 import 'core/utils/app_router.dart';
 import 'features/auth/logic/auth_state.dart';
 import 'features/auth/ui/views/login_view.dart';
-import 'features/home/ui/views/home_view.dart';
+import 'features/chat/ui/views/chats_view.dart';
 
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});
@@ -25,7 +25,7 @@ class ChatApp extends StatelessWidget {
           builder: (context, state) {
             if (state is AuthenticatedState) {
               getIt<NotificationRepository>().initialize();
-              return const HomeView();
+              return const ChatsView();
             } else {
               getIt<NotificationRepository>().dispose();
               return const LoginView();
