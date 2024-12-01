@@ -1,6 +1,6 @@
 import 'package:chat/core/utils/app_strings.dart';
 
-import '../../../core/data_sources/user_data_source.dart';
+import '../../users/data_sources/user_data_source.dart';
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
 import '../../../core/models/user_model.dart';
