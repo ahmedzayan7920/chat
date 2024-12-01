@@ -1,6 +1,6 @@
-import '../../../core/models/either.dart';
-import '../../../core/models/failure.dart';
-import '../../../core/models/user_model.dart';
+import '../../../../core/models/either.dart';
+import '../../../../core/models/failure.dart';
+import '../../../../core/models/user_model.dart';
 
 abstract class UserDataSource {
   Future<Either<Failure, UserModel>> storeUserToDatabase(UserModel user);
@@ -8,4 +8,6 @@ abstract class UserDataSource {
   Future<Either<Failure, UserModel>> fetchUserFromDatabase(String userId);
 
   Future<Either<Failure, UserModel>> fetchOrSaveUser(UserModel userModel);
+
+  Future<Either<Failure, List<UserModel>>> fetchAllUsers();
 }
