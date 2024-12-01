@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension StringsListExtension on List<String> {
   String generateChatId() {
     final userId1 = this[0];
@@ -8,10 +10,8 @@ extension StringsListExtension on List<String> {
 }
 
 extension TimeExtension on int {
-  String formatTime() {
+  String formatIntTime() {
     final DateTime time = DateTime.fromMillisecondsSinceEpoch(this);
-    final String formattedTime =
-        "${time.hour}:${time.minute.toString().padLeft(2, '0')}";
-    return formattedTime;
+    return DateFormat('hh:mm a').format(time);
   }
 }

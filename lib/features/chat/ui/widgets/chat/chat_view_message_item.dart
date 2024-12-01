@@ -57,7 +57,7 @@ class ChatViewMessageItem extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                message.time.formatTime(),
+                message.time.formatIntTime(),
                 style: TextStyle(
                   color: isMyMessage
                       ? Theme.of(context).colorScheme.primary
