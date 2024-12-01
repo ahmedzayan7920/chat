@@ -48,4 +48,8 @@ abstract class AppStrings {
   static const String verifyOtp = "Verify OTP";
 
   static const String defaultUserStatus = "Hey there! I am using ChatApp.";
+  static const String chats = "Chats";
+  static const String noChats = "No chats found";
+  static const String users = "Users";
+  static const String sendMessageHint = "Type a message...";
 }

@@ -18,7 +18,7 @@ class LoginBlocListener extends StatelessWidget {
         if (state is AuthenticatedState) {
           getIt<NotificationRepository>().initialize();
           Navigator.of(context).pushNamedAndRemoveUntil(
-            AppRoutes.home,
+            AppRoutes.chats,
             (route) => false,
           );
         } else if (state is AuthErrorState) {
@@ -34,4 +34,3 @@ class LoginBlocListener extends StatelessWidget {
     );
   }
 }
-
