@@ -18,6 +18,7 @@ class ChatViewMessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMyMessage = message.senderId ==
         (context.read<AuthCubit>().state as AuthenticatedState).user.id;
+    final itemWidth = MediaQuery.of(context).size.width * .6;
     return Align(
       alignment: isMyMessage
           ? AlignmentDirectional.centerEnd
@@ -28,7 +29,7 @@ class ChatViewMessageItem extends StatelessWidget {
           horizontal: 8,
         ),
         padding: const EdgeInsets.all(8),
-        constraints: const BoxConstraints(maxWidth: 280),
+        constraints: BoxConstraints(maxWidth: itemWidth),
         decoration: BoxDecoration(
           color: isMyMessage
               ? Theme.of(context).colorScheme.inversePrimary
