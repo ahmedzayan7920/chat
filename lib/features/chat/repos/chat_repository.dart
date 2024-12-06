@@ -12,4 +12,10 @@ abstract class ChatRepository {
     required String otherUserId,
     required MessageModel message,
   });
+
+  Future<Either<Failure, Unit>> sendImageMessage({
+    required String currentUserId,
+    required String otherUserId,
+    required MessageModel message,
+  });
 }
