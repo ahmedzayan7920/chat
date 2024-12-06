@@ -5,6 +5,15 @@ abstract class MessageModelKeys {
   static const String message = 'message';
   static const String senderId = 'senderId';
   static const String time = 'time';
+  static const String type = 'type';
+}
+
+enum MessageType {
+  text,
+  image,
+  video,
+  audio,
+  file,
 }
 
 class MessageModel {
@@ -12,12 +21,14 @@ class MessageModel {
   final String message;
   final String senderId;
   final int time;
+  final MessageType type;
 
   MessageModel({
     required this.id,
     required this.message,
     required this.senderId,
     required this.time,
+    required this.type,
   });
 
   MessageModel copyWith({
@@ -25,12 +36,14 @@ class MessageModel {
     String? message,
     String? senderId,
     int? time,
+    MessageType? type,
   }) {
     return MessageModel(
       id: id ?? this.id,
       message: message ?? this.message,
       senderId: senderId ?? this.senderId,
       time: time ?? this.time,
+      type: type ?? this.type,
     );
   }
 
@@ -40,6 +53,7 @@ class MessageModel {
       MessageModelKeys.message: message,
       MessageModelKeys.senderId: senderId,
       MessageModelKeys.time: time,
+      MessageModelKeys.type: type.name,
     };
   }
 
@@ -49,11 +63,15 @@ class MessageModel {
       message: map[MessageModelKeys.message] ?? AppStrings.emptyString,
       senderId: map[MessageModelKeys.senderId] ?? AppStrings.emptyString,
       time: map[MessageModelKeys.time] ?? 0,
+      type: MessageType.values.firstWhere(
+        (e) => e.name == map[MessageModelKeys.type],
+        orElse: () => MessageType.text,
+      ),
     );
   }
   @override
   String toString() {
-    return 'MessageModel(id: $id, message: $message, senderId: $senderId, time: $time)';
+    return 'MessageModel(id: $id, message: $message, senderId: $senderId, time: $time, type: $type)';
   }
 
   @override
@@ -63,7 +81,8 @@ class MessageModel {
     return other.id == id &&
         other.message == message &&
         other.senderId == senderId &&
-        other.time == time  ;
+        other.time == time &&
+        other.type == type;
   }
 
   @override
@@ -71,6 +90,7 @@ class MessageModel {
     return id.hashCode ^
         message.hashCode ^
         senderId.hashCode ^
-        time.hashCode ;
+        time.hashCode ^
+        type.hashCode;
   }
 }

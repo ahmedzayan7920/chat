@@ -39,7 +39,7 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
-  Future<void> sendMessage({
+  Future<void> sendTextMessage({
     required String currentUserId,
     required String otherUserId,
     required String message,
@@ -49,8 +49,9 @@ class ChatCubit extends Cubit<ChatState> {
       message: message,
       senderId: currentUserId,
       time: DateTime.now().millisecondsSinceEpoch,
+      type: MessageType.text,
     );
-    final result = await _chatRepository.sendMessage(
+    final result = await _chatRepository.sendTextMessage(
       currentUserId: currentUserId,
       otherUserId: otherUserId,
       message: messageModel,

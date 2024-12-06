@@ -49,7 +49,7 @@ class _ChatViewFieldState extends State<ChatViewField> {
                 return currentUserId;
               },
             );
-            context.read<ChatCubit>().sendMessage(
+            context.read<ChatCubit>().sendTextMessage(
                   currentUserId: currentUserId,
                   otherUserId: otherUserId,
                   message: _messageController.text.trim(),
