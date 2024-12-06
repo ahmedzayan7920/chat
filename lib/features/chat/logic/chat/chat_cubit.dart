@@ -65,6 +65,32 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
+  Future<void> sendImageMessage({
+    required String currentUserId,
+    required String otherUserId,
+    required String imagePath,
+  }) async {
+    final messageModel = MessageModel(
+      id: const Uuid().v4(),
+      message: imagePath,
+      senderId: currentUserId,
+      time: DateTime.now().millisecondsSinceEpoch,
+      type: MessageType.text,
+    );
+    final result = await _chatRepository.sendImageMessage(
+      currentUserId: currentUserId,
+      otherUserId: otherUserId,
+      message: messageModel,
+    );
+
+    result.fold(
+      (failure) {
+        emit(ChatErrorState(failure.message));
+      },
+      (_) {},
+    );
+  }
+
   @override
   Future<void> close() {
     _messagesSubscription?.cancel();
