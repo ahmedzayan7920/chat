@@ -45,7 +45,7 @@ class FirebaseChatRepository implements ChatRepository {
     required MessageModel message,
   }) async {
     final uploadResult = await _storageDataSource.uploadFile(
-      filePath: message.message,
+      filePath: message.mediaUrl!,
       fileName:
           "${[currentUserId, otherUserId].generateChatId()}/${message.id}",
       bucketName: SupabaseConstants.messagesBucket,
@@ -54,7 +54,7 @@ class FirebaseChatRepository implements ChatRepository {
       (failure) => Either.left(failure),
       (url) {
         final messageWithUrl =
-            message.copyWith(message: url, type: MessageType.image);
+            message.copyWith(mediaUrl: url, type: MessageType.image);
         return _chatDataSource.sendMessage(
           currentUserId: currentUserId,
           otherUserId: otherUserId,

@@ -51,6 +51,8 @@ class ChatCubit extends Cubit<ChatState> {
       time: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.text,
     );
+    final messages = (state as ChatLoadedState).messages;
+    emit(ChatLoadedState([...messages, messageModel]));
     final result = await _chatRepository.sendTextMessage(
       currentUserId: currentUserId,
       otherUserId: otherUserId,
@@ -68,15 +70,19 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> sendImageMessage({
     required String currentUserId,
     required String otherUserId,
+    required String message,
     required String imagePath,
   }) async {
     final messageModel = MessageModel(
       id: const Uuid().v4(),
-      message: imagePath,
+      message: message,
       senderId: currentUserId,
       time: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.image,
+      mediaUrl: imagePath,
     );
+    final messages = (state as ChatLoadedState).messages;
+    emit(ChatLoadedState([...messages, messageModel]));
     final result = await _chatRepository.sendImageMessage(
       currentUserId: currentUserId,
       otherUserId: otherUserId,

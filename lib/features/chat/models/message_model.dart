@@ -6,6 +6,7 @@ abstract class MessageModelKeys {
   static const String senderId = 'senderId';
   static const String time = 'time';
   static const String type = 'type';
+  static const String mediaUrl = 'mediaUrl';
 }
 
 enum MessageType {
@@ -22,6 +23,7 @@ class MessageModel {
   final String senderId;
   final int time;
   final MessageType type;
+  final String? mediaUrl;
 
   MessageModel({
     required this.id,
@@ -29,6 +31,7 @@ class MessageModel {
     required this.senderId,
     required this.time,
     required this.type,
+    this.mediaUrl,
   });
 
   MessageModel copyWith({
@@ -37,6 +40,7 @@ class MessageModel {
     String? senderId,
     int? time,
     MessageType? type,
+    String? mediaUrl,
   }) {
     return MessageModel(
       id: id ?? this.id,
@@ -44,6 +48,7 @@ class MessageModel {
       senderId: senderId ?? this.senderId,
       time: time ?? this.time,
       type: type ?? this.type,
+      mediaUrl: mediaUrl ?? this.mediaUrl,
     );
   }
 
@@ -54,6 +59,7 @@ class MessageModel {
       MessageModelKeys.senderId: senderId,
       MessageModelKeys.time: time,
       MessageModelKeys.type: type.name,
+      MessageModelKeys.mediaUrl: mediaUrl,
     };
   }
 
@@ -67,11 +73,12 @@ class MessageModel {
         (e) => e.name == map[MessageModelKeys.type],
         orElse: () => MessageType.text,
       ),
+      mediaUrl: map[MessageModelKeys.mediaUrl],
     );
   }
   @override
   String toString() {
-    return 'MessageModel(id: $id, message: $message, senderId: $senderId, time: $time, type: $type)';
+    return 'MessageModel(id: $id, message: $message, senderId: $senderId, time: $time, type: $type, mediaUrl: $mediaUrl)';
   }
 
   @override
@@ -82,7 +89,8 @@ class MessageModel {
         other.message == message &&
         other.senderId == senderId &&
         other.time == time &&
-        other.type == type;
+        other.type == type &&
+        other.mediaUrl == mediaUrl;
   }
 
   @override
@@ -91,6 +99,7 @@ class MessageModel {
         message.hashCode ^
         senderId.hashCode ^
         time.hashCode ^
-        type.hashCode;
+        type.hashCode^
+        mediaUrl.hashCode;
   }
 }
