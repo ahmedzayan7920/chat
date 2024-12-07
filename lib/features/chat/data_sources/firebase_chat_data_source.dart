@@ -63,6 +63,7 @@ class FirebaseChatDataSource implements ChatDataSource {
         await chatDoc.update({
           ChatModelKeys.lastMessage: message.message,
           ChatModelKeys.lastMessageTime: message.time,
+          ChatModelKeys.type: message.type.name,
         });
       }
 

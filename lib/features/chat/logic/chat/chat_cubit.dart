@@ -75,7 +75,7 @@ class ChatCubit extends Cubit<ChatState> {
       message: imagePath,
       senderId: currentUserId,
       time: DateTime.now().millisecondsSinceEpoch,
-      type: MessageType.text,
+      type: MessageType.image,
     );
     final result = await _chatRepository.sendImageMessage(
       currentUserId: currentUserId,
