@@ -18,58 +18,32 @@ class ChatViewSuccess extends StatefulWidget {
 
 class _ChatViewSuccessState extends State<ChatViewSuccess> {
   final ScrollController _scrollController = ScrollController();
-  List<dynamic> _previousMessages = [];
-
-  @override
-  Widget build(BuildContext context) {
-    final groupedMessages = _groupMessagesByDate(widget.messages);
-
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: groupedMessages.length,
-      itemBuilder: (context, index) {
-        final item = groupedMessages[index];
-
-        if (item is DateTime) {
-          return ChatViewDateItem(date: item);
-        } else if (item is MessageModel) {
-          return ChatViewMessageItem(message: item);
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
+  late List<dynamic> groupedMessages;
 
   @override
   void initState() {
     super.initState();
-    _previousMessages = widget.messages;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToBottom();
-    });
+    groupedMessages = _groupMessagesByDate(widget.messages);
   }
 
   @override
   void didUpdateWidget(ChatViewSuccess oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.messages.length > _previousMessages.length) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToBottom();
+    if (widget.messages != oldWidget.messages) {
+      setState(() {
+        groupedMessages = _groupMessagesByDate(widget.messages);
       });
-    }
-    _previousMessages = widget.messages;
-  }
 
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      final double maxScroll = _scrollController.position.maxScrollExtent;
-      _scrollController.animateTo(
-        maxScroll + 500,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
     }
   }
 
@@ -79,11 +53,35 @@ class _ChatViewSuccessState extends State<ChatViewSuccess> {
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return ListView.builder(
+          controller: _scrollController,
+          reverse: true,
+          itemCount: groupedMessages.length,
+          itemBuilder: (context, index) {
+            final item = groupedMessages[groupedMessages.length - 1 - index];
+
+            if (item is DateTime) {
+              return ChatViewDateItem(date: item);
+            } else if (item is MessageModel) {
+              return ChatViewMessageItem(message: item);
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
+      },
+    );
+  }
+
   List<dynamic> _groupMessagesByDate(List<MessageModel> messages) {
     final List<dynamic> groupedMessages = [];
     DateTime? currentDate;
 
-    for (final message in messages.reversed) {
+    for (final message in messages) {
       final messageDate =
           DateTime.fromMillisecondsSinceEpoch(message.time).toLocal();
       final dateOnly =
