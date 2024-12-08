@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../functions/build_field_border.dart';
+
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
@@ -64,25 +66,14 @@ class CustomTextFormField extends StatelessWidget {
             : null,
         filled: true,
         fillColor: Theme.of(context).colorScheme.secondary,
-        border: _buildBorder(color: Colors.grey.shade400),
-        disabledBorder: _buildBorder(color: Colors.grey.shade300),
+        border: buildFieldBorder(color: Colors.grey.shade400),
+        disabledBorder: buildFieldBorder(color: Colors.grey.shade300),
         enabledBorder:
-            _buildBorder(color: Theme.of(context).colorScheme.tertiary),
+            buildFieldBorder(color: Theme.of(context).colorScheme.tertiary),
         focusedBorder:
-            _buildBorder(color: Theme.of(context).colorScheme.primary),
-        errorBorder: _buildBorder(color: Colors.red),
-        focusedErrorBorder: _buildBorder(color: Colors.red),
-      ),
-    );
-  }
-
-  OutlineInputBorder _buildBorder({required Color color}) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: BorderSide(
-        color: color,
-        width: 2,
-        style: BorderStyle.solid,
+            buildFieldBorder(color: Theme.of(context).colorScheme.primary),
+        errorBorder: buildFieldBorder(color: Colors.red),
+        focusedErrorBorder: buildFieldBorder(color: Colors.red),
       ),
     );
   }
