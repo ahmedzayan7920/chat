@@ -1,6 +1,7 @@
-import 'package:chat/core/utils/firebase_constants.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+import '../../../core/utils/firebase_constants.dart';
 
 class FirebaseNotificationDataSource {
   final FirebaseMessaging _messaging;

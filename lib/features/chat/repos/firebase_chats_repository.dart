@@ -1,5 +1,5 @@
-import 'package:chat/core/models/either.dart';
-import 'package:chat/core/models/failure.dart';
+import '../../../core/models/either.dart';
+import '../../../core/models/failure.dart';
 
 import '../data_sources/chats_data_source.dart';
 import '../models/chat_model.dart';

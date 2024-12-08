@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:chat/core/widgets/custom_elevated_button.dart';
 
 import '../../../../../core/utils/app_strings.dart';
+import '../../../../../core/widgets/custom_elevated_button.dart';
 
 class VerifyOtpButton extends StatelessWidget {
   final bool isLoading;

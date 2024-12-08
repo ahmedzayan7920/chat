@@ -1,5 +1,5 @@
-import 'package:chat/core/extensions/extensions.dart';
-import 'package:chat/core/utils/app_strings.dart';
+import '../../../../../core/extensions/extensions.dart';
+import '../../../../../core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';

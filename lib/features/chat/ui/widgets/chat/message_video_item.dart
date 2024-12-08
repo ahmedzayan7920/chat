@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:chat/core/extensions/extensions.dart';
-import 'package:chat/features/chat/models/message_model.dart';
-import 'package:chat/features/chat/ui/widgets/chat/message_text_item.dart';
+import '../../../../../core/extensions/extensions.dart';
+import '../../../models/message_model.dart';
+import 'message_text_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';

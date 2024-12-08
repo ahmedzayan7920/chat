@@ -1,4 +1,4 @@
-import 'package:chat/features/users/repos/users_repository.dart';
+import '../repos/users_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'users_state.dart';

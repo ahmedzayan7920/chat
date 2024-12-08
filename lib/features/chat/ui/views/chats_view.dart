@@ -1,6 +1,6 @@
-import 'package:chat/core/utils/app_routes.dart';
-import 'package:chat/core/utils/app_strings.dart';
-import 'package:chat/features/chat/logic/chats/chats_cubit.dart';
+import '../../../../core/utils/app_routes.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../../logic/chats/chats_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

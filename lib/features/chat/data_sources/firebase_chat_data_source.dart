@@ -1,7 +1,7 @@
-import 'package:chat/core/extensions/extensions.dart';
-import 'package:chat/core/models/either.dart';
-import 'package:chat/core/models/failure.dart';
-import 'package:chat/core/utils/firebase_constants.dart';
+import '../../../core/extensions/extensions.dart';
+import '../../../core/models/either.dart';
+import '../../../core/models/failure.dart';
+import '../../../core/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/chat_model.dart';

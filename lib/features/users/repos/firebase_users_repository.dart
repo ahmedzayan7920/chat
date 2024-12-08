@@ -1,7 +1,7 @@
-import 'package:chat/features/users/data_sources/user_data_source.dart';
-import 'package:chat/core/models/either.dart';
-import 'package:chat/core/models/failure.dart';
-import 'package:chat/core/models/user_model.dart';
+import '../data_sources/user_data_source.dart';
+import '../../../core/models/either.dart';
+import '../../../core/models/failure.dart';
+import '../../../core/models/user_model.dart';
 
 import 'users_repository.dart';
 

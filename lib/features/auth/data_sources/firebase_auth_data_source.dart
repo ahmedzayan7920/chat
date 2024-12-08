@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:chat/core/utils/app_strings.dart';
+import '../../../core/utils/app_strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';

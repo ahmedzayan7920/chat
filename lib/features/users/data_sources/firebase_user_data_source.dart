@@ -1,4 +1,4 @@
-import 'package:chat/core/utils/app_strings.dart';
+import '../../../core/utils/app_strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/models/either.dart';

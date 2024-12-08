@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthDataSource {
   Future<Either<Failure, User>> loginWithEmailAndPassword({

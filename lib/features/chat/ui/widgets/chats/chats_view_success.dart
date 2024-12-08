@@ -1,4 +1,4 @@
-import 'package:chat/features/chat/models/chat_model.dart';
+import '../../../models/chat_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/widgets/spaces.dart';

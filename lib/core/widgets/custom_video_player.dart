@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
-import 'package:chat/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+
+import '../extensions/extensions.dart';
 
 class CustomVideoPlayer extends StatefulWidget {
   final String videoPath;

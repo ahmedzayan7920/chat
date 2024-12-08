@@ -1,9 +1,8 @@
-import 'package:chat/core/utils/app_strings.dart';
-
-import '../../users/data_sources/user_data_source.dart';
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
 import '../../../core/models/user_model.dart';
+import '../../../core/utils/app_strings.dart';
+import '../../users/data_sources/user_data_source.dart';
 import '../data_sources/auth_data_source.dart';
 import 'auth_repository.dart';
 
