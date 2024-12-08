@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../core/enums/message_type.dart';
 import '../../../core/utils/app_strings.dart';
 
 abstract class ChatModelKeys {
@@ -7,6 +8,7 @@ abstract class ChatModelKeys {
   static const members = 'members';
   static const lastMessage = 'lastMessage';
   static const lastMessageTime = 'lastMessageTime';
+  static const type = 'type';
 }
 
 class ChatModel {
@@ -16,6 +18,7 @@ class ChatModel {
   final String? userProfilePictureUrl;
   final String lastMessage;
   final int lastMessageTime;
+  final MessageType type;
 
   ChatModel({
     required this.id,
@@ -24,6 +27,7 @@ class ChatModel {
     this.userProfilePictureUrl,
     required this.lastMessage,
     required this.lastMessageTime,
+    required this.type,
   });
 
   ChatModel copyWith({
@@ -33,6 +37,7 @@ class ChatModel {
     String? userProfilePictureUrl,
     String? lastMessage,
     int? lastMessageTime,
+    MessageType? type,
   }) {
     return ChatModel(
       id: id ?? this.id,
@@ -42,6 +47,7 @@ class ChatModel {
           userProfilePictureUrl ?? this.userProfilePictureUrl,
       lastMessage: lastMessage ?? this.lastMessage,
       lastMessageTime: lastMessageTime ?? this.lastMessageTime,
+      type: type ?? this.type,
     );
   }
 
@@ -51,6 +57,7 @@ class ChatModel {
       ChatModelKeys.members: members,
       ChatModelKeys.lastMessage: lastMessage,
       ChatModelKeys.lastMessageTime: lastMessageTime,
+      ChatModelKeys.type: type.name,
     };
   }
 
@@ -63,11 +70,15 @@ class ChatModel {
           [],
       lastMessage: map[ChatModelKeys.lastMessage] ?? AppStrings.emptyString,
       lastMessageTime: map[ChatModelKeys.lastMessageTime] ?? 0,
+      type: MessageType.values.firstWhere(
+        (e) => e.name == map[ChatModelKeys.type],
+        orElse: () => MessageType.text,
+      ),
     );
   }
   @override
   String toString() {
-    return 'ChatModel(id: $id, members: $members, userName: $userName, userProfilePictureUrl: $userProfilePictureUrl, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime)';
+    return 'ChatModel(id: $id, members: $members, userName: $userName, userProfilePictureUrl: $userProfilePictureUrl, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, type: $type)';
   }
 
   @override
@@ -79,7 +90,8 @@ class ChatModel {
         other.userName == userName &&
         other.userProfilePictureUrl == userProfilePictureUrl &&
         other.lastMessage == lastMessage &&
-        other.lastMessageTime == lastMessageTime;
+        other.lastMessageTime == lastMessageTime&&
+        other.type == type;
   }
 
   @override
@@ -89,6 +101,7 @@ class ChatModel {
         userName.hashCode ^
         userProfilePictureUrl.hashCode ^
         lastMessage.hashCode ^
-        lastMessageTime.hashCode;
+        lastMessageTime.hashCode^
+        type.hashCode;
   }
 }
