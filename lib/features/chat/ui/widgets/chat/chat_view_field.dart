@@ -1,9 +1,16 @@
+import 'package:chat/core/extensions/extensions.dart';
+import 'package:chat/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../../../../../core/utils/app_strings.dart';
+import '../../../../../core/enums/message_type.dart';
+import '../../../../../core/functions/build_field_border.dart';
+import '../../../../../core/functions/show_snack_bar.dart';
+import '../../../../../core/models/edit_media_arguments_model.dart';
+import '../../../../../core/utils/app_media_picker.dart';
+import '../../../../../core/utils/app_routes.dart';
 import '../../../../auth/logic/auth_cubit.dart';
-import '../../../../auth/logic/auth_state.dart';
 import '../../../logic/chat/chat_cubit.dart';
 import '../../../models/chat_model.dart';
 
@@ -22,7 +29,7 @@ class _ChatViewFieldState extends State<ChatViewField> {
   final TextEditingController _messageController = TextEditingController();
 
   @override
-  dispose() {
+  void dispose() {
     _messageController.dispose();
     super.dispose();
   }
@@ -40,49 +47,40 @@ class _ChatViewFieldState extends State<ChatViewField> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
           ),
-          labelStyle: TextStyle(
-            color: Colors.grey.shade700,
-          ),
           suffixIcon: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.perm_media_outlined),
-                color: Theme.of(context).colorScheme.onSecondary,
+              _FieldIconButton(
+                icon: Icons.video_collection_outlined,
+                onPressed: () => _pickMedia(context, isVideo: true),
               ),
-              IconButton(
+              _FieldIconButton(
+                icon: Icons.image_outlined,
+                onPressed: () => _pickMedia(context, isVideo: false),
+              ),
+              _FieldIconButton(
+                icon: Icons.send_outlined,
                 onPressed: _sendTextMessage,
-                icon: Icon(Icons.send_outlined),
-                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ],
           ),
           filled: true,
           fillColor: Theme.of(context).colorScheme.secondary,
-          border: _buildBorder(color: Colors.grey.shade400),
-          disabledBorder: _buildBorder(color: Colors.grey.shade300),
+          border: buildFieldBorder(color: Colors.grey.shade400),
           enabledBorder:
-              _buildBorder(color: Theme.of(context).colorScheme.tertiary),
+              buildFieldBorder(color: Theme.of(context).colorScheme.tertiary),
           focusedBorder:
-              _buildBorder(color: Theme.of(context).colorScheme.primary),
-          errorBorder: _buildBorder(color: Colors.red),
-          focusedErrorBorder: _buildBorder(color: Colors.red),
+              buildFieldBorder(color: Theme.of(context).colorScheme.primary),
         ),
       ),
     );
   }
 
-  _sendTextMessage() {
+  void _sendTextMessage() {
     if (_messageController.text.trim().isNotEmpty) {
-      final currentUserId =
-          (context.read<AuthCubit>().state as AuthenticatedState).user.id;
-      final otherUserId = widget.chat.members.firstWhere(
-        (element) => element != currentUserId,
-        orElse: () {
-          return currentUserId;
-        },
-      );
+      final currentUserId = context.read<AuthCubit>().currentUserId;
+      final otherUserId = widget.chat.getOtherUserId(currentUserId);
+
       context.read<ChatCubit>().sendTextMessage(
             currentUserId: currentUserId,
             otherUserId: otherUserId,
@@ -92,14 +90,61 @@ class _ChatViewFieldState extends State<ChatViewField> {
     }
   }
 
-  OutlineInputBorder _buildBorder({required Color color}) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: BorderSide(
-        color: color,
-        width: 2,
-        style: BorderStyle.solid,
-      ),
+  void _sendMediaMessage(String filePath, String caption, MessageType type) {
+    final currentUserId = context.read<AuthCubit>().currentUserId;
+    final otherUserId = widget.chat.getOtherUserId(currentUserId);
+
+    context.read<ChatCubit>().sendMediaMessage(
+          currentUserId: currentUserId,
+          otherUserId: otherUserId,
+          message: caption,
+          mediaPath: filePath,
+          type: type,
+        );
+  }
+
+  Future<void> _pickMedia(BuildContext context, {required bool isVideo}) async {
+    try {
+      final XFile? file = await AppMediaPicker.pickMedia(isVideo: isVideo);
+
+      if (!context.mounted || file == null) return;
+
+      await Navigator.of(context).pushNamed(
+        AppRoutes.editMedia,
+        arguments: EditMediaArgumentsModel(
+          mediaPath: file.path,
+          isVideo: isVideo,
+          onSend: (String caption) {
+            _sendMediaMessage(
+              file.path,
+              caption,
+              isVideo ? MessageType.video : MessageType.image,
+            );
+          },
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      showSnackBar(context, '${AppStrings.failedToPickMedia} $e');
+    }
+  }
+}
+
+class _FieldIconButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const _FieldIconButton({
+    required this.icon,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(icon),
+      color: Theme.of(context).colorScheme.onSecondary,
     );
   }
 }
