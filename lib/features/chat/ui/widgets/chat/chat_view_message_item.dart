@@ -1,10 +1,12 @@
 import 'package:chat/core/extensions/extensions.dart';
+import 'package:chat/core/widgets/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../auth/logic/auth_cubit.dart';
 import '../../../../auth/logic/auth_state.dart';
 import '../../../models/message_model.dart';
+import 'message_item_content.dart';
 
 class ChatViewMessageItem extends StatelessWidget {
   const ChatViewMessageItem({
@@ -19,6 +21,7 @@ class ChatViewMessageItem extends StatelessWidget {
     final isMyMessage = message.senderId ==
         (context.read<AuthCubit>().state as AuthenticatedState).user.id;
     final itemWidth = MediaQuery.of(context).size.width * .6;
+
     return Align(
       alignment: isMyMessage
           ? AlignmentDirectional.centerEnd
@@ -42,19 +45,15 @@ class ChatViewMessageItem extends StatelessWidget {
           ),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              message.message,
-              style: TextStyle(
-                color: isMyMessage
-                    ? Theme.of(context).colorScheme.tertiary
-                    : Theme.of(context).colorScheme.inversePrimary,
-                fontSize: 16,
-              ),
+            MessageItemContent(
+              message: message,
+              isMyMessage: isMyMessage,
+              size: itemWidth,
             ),
-            const SizedBox(height: 4),
+            VerticalSpace(height: 4),
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
