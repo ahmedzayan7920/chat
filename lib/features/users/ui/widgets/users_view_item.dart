@@ -3,6 +3,7 @@ import 'package:chat/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/enums/message_type.dart';
 import '../../../../core/models/user_model.dart';
 import '../../../../core/utils/app_routes.dart';
 import '../../../auth/logic/auth_cubit.dart';
@@ -32,8 +33,9 @@ class UsersViewItem extends StatelessWidget {
           userProfilePictureUrl: user.profilePictureUrl,
           lastMessage: '',
           lastMessageTime: 0,
+          type: MessageType.text,
         );
-        Navigator.of(context).pushNamed(
+        Navigator.of(context).pushReplacementNamed(
           AppRoutes.chat,
           arguments: chat,
         );
