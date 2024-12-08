@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/enums/message_type.dart';
 import '../../../../core/models/either.dart';
 import '../../../../core/models/failure.dart';
 import '../../models/message_model.dart';
@@ -67,23 +68,24 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
-  Future<void> sendImageMessage({
+  Future<void> sendMediaMessage({
     required String currentUserId,
     required String otherUserId,
     required String message,
-    required String imagePath,
+    required String mediaPath,
+    required MessageType type,
   }) async {
     final messageModel = MessageModel(
       id: const Uuid().v4(),
       message: message,
       senderId: currentUserId,
       time: DateTime.now().millisecondsSinceEpoch,
-      type: MessageType.image,
-      mediaUrl: imagePath,
+      type: type,
+      mediaUrl: mediaPath,
     );
     final messages = (state as ChatLoadedState).messages;
     emit(ChatLoadedState([...messages, messageModel]));
-    final result = await _chatRepository.sendImageMessage(
+    final result = await _chatRepository.sendMediaMessage(
       currentUserId: currentUserId,
       otherUserId: otherUserId,
       message: messageModel,
