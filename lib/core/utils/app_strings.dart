@@ -54,4 +54,10 @@ abstract class AppStrings {
   static const String sendMessageHint = "Type a message...";
   static const String today = "Today";
   static const String yesterday = "Yesterday";
+  static const String editMedia = "Edit Media";
+  static const String addCaption = "Add a caption...";
+  static const String imageNotFound = "Image not found";
+  static const String failedToLoadImage= "Failed to load image";
+  static const String failedToPickMedia= "Failed to pick media:";
+  static const String video= "Video";
 }

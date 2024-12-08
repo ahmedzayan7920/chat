@@ -23,7 +23,7 @@ class FirebaseChatDataSource implements ChatDataSource {
           .collection(FirebaseConstants.chats)
           .doc(chatId)
           .collection(FirebaseConstants.messages)
-          .orderBy(MessageModelKeys.time, descending: true)
+          .orderBy(MessageModelKeys.time, descending: false)
           .snapshots();
 
       await for (final snapshot in messageStream) {
@@ -56,12 +56,14 @@ class FirebaseChatDataSource implements ChatDataSource {
           members: [currentUserId, otherUserId],
           lastMessage: message.message,
           lastMessageTime: message.time,
+          type: message.type,
         );
         await chatDoc.set(newChat.toJson());
       } else {
         await chatDoc.update({
           ChatModelKeys.lastMessage: message.message,
           ChatModelKeys.lastMessageTime: message.time,
+          ChatModelKeys.type: message.type.name,
         });
       }
 

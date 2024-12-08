@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/utils/app_routes.dart';
 import '../../../../../core/utils/app_strings.dart';
 import '../../../models/chat_model.dart';
+import 'chats_item_subtitle.dart';
 
 class ChatsViewItem extends StatelessWidget {
   const ChatsViewItem({
@@ -30,21 +31,18 @@ class ChatsViewItem extends StatelessWidget {
           width: 50,
           height: 50,
           fit: BoxFit.cover,
+          errorWidget: (context, url, error) => const Icon(Icons.person_outline),
         ),
       ),
       title: Text(
         chat.userName ?? AppStrings.emptyString,
         style: Theme.of(context).textTheme.titleMedium,
       ),
-      subtitle: Text(
-        chat.lastMessage,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-      ),
+      subtitle: ChatsItemSubtitle(chat: chat),
       trailing: Text(
         chat.lastMessageTime.formatIntTime(),
       ),
     );
   }
 }
+

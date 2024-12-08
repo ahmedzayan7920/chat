@@ -6,4 +6,6 @@ abstract class AppRoutes {
   static const String chats = '/chats';
   static const String users = '/users';
   static const String chat = '/chat';
+  static const String editMedia = '/editMedia';
+  static const String videoPlayer = '/videoPlayer';
 }

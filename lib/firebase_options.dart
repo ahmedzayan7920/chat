@@ -63,6 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '306952175147',
     projectId: 'zayan-training-chat',
     storageBucket: 'zayan-training-chat.firebasestorage.app',
+    androidClientId: '306952175147-q3t2ae1osbk68j22b9rt6eg36iuandfv.apps.googleusercontent.com',
+    iosClientId: '306952175147-td68ee2tfspssrl1f5ini70si5csqh60.apps.googleusercontent.com',
     iosBundleId: 'com.training.chat',
   );
+
 }

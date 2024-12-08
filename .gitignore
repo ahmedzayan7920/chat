@@ -30,6 +30,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+lib/core/supabase/supabase_config.dart
+.vscode/easycode.ignore
 
 # Symbolication related
 app.*.symbols
