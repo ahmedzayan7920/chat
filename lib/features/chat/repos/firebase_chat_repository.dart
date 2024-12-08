@@ -39,7 +39,7 @@ class FirebaseChatRepository implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> sendImageMessage({
+  Future<Either<Failure, Unit>> sendMediaMessage({
     required String currentUserId,
     required String otherUserId,
     required MessageModel message,
@@ -53,8 +53,7 @@ class FirebaseChatRepository implements ChatRepository {
     return uploadResult.fold(
       (failure) => Either.left(failure),
       (url) {
-        final messageWithUrl =
-            message.copyWith(mediaUrl: url, type: MessageType.image);
+        final messageWithUrl = message.copyWith(mediaUrl: url);
         return _chatDataSource.sendMessage(
           currentUserId: currentUserId,
           otherUserId: otherUserId,

@@ -13,7 +13,7 @@ abstract class ChatRepository {
     required MessageModel message,
   });
 
-  Future<Either<Failure, Unit>> sendImageMessage({
+  Future<Either<Failure, Unit>> sendMediaMessage({
     required String currentUserId,
     required String otherUserId,
     required MessageModel message,
