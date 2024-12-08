@@ -1,6 +1,6 @@
-import 'package:chat/features/chat/models/message_model.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../core/enums/message_type.dart';
 import '../../../core/utils/app_strings.dart';
 
 abstract class ChatModelKeys {

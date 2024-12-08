@@ -1,5 +1,7 @@
 import 'package:chat/core/utils/app_strings.dart';
 
+import '../../../core/enums/message_type.dart';
+
 abstract class MessageModelKeys {
   static const String id = 'id';
   static const String message = 'message';
@@ -9,13 +11,7 @@ abstract class MessageModelKeys {
   static const String mediaUrl = 'mediaUrl';
 }
 
-enum MessageType {
-  text,
-  image,
-  video,
-  audio,
-  file,
-}
+
 
 class MessageModel {
   final String id;
