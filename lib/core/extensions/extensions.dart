@@ -1,7 +1,5 @@
 import 'package:intl/intl.dart';
 
-import '../../features/auth/logic/auth_cubit.dart';
-import '../../features/auth/logic/auth_state.dart';
 import '../../features/chat/models/chat_model.dart';
 
 extension StringsListExtension on List<String> {
@@ -18,10 +16,6 @@ extension TimeExtension on int {
     final DateTime time = DateTime.fromMillisecondsSinceEpoch(this);
     return DateFormat('hh:mm a').format(time);
   }
-}
-
-extension AuthCubitExtensions on AuthCubit {
-  String get currentUserId => (state as AuthenticatedState).user.id;
 }
 
 extension ChatModelExtensions on ChatModel {

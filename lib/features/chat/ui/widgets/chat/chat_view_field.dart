@@ -78,7 +78,7 @@ class _ChatViewFieldState extends State<ChatViewField> {
 
   void _sendTextMessage() {
     if (_messageController.text.trim().isNotEmpty) {
-      final currentUserId = context.read<AuthCubit>().currentUserId;
+      final currentUserId = context.read<AuthCubit>().currentUser!.id;
       final otherUserId = widget.chat.getOtherUserId(currentUserId);
 
       context.read<ChatCubit>().sendTextMessage(
@@ -91,7 +91,7 @@ class _ChatViewFieldState extends State<ChatViewField> {
   }
 
   void _sendMediaMessage(String filePath, String caption, MessageType type) {
-    final currentUserId = context.read<AuthCubit>().currentUserId;
+    final currentUserId = context.read<AuthCubit>().currentUser!.id;
     final otherUserId = widget.chat.getOtherUserId(currentUserId);
 
     context.read<ChatCubit>().sendMediaMessage(

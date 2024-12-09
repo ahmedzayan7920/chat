@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../auth/logic/auth_cubit.dart';
-import '../../../../auth/logic/auth_state.dart';
 import '../../../models/message_model.dart';
 import 'message_item_content.dart';
 
@@ -18,8 +17,8 @@ class ChatViewMessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMyMessage = message.senderId ==
-        (context.read<AuthCubit>().state as AuthenticatedState).user.id;
+    final isMyMessage =
+        message.senderId == (context.read<AuthCubit>().currentUser!.id);
     final itemWidth = MediaQuery.of(context).size.width * .6;
 
     return Align(

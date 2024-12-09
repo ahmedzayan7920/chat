@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import '../../../../../core/extensions/extensions.dart';
 import '../../../models/message_model.dart';
 import 'message_text_item.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class MessageVideoItem extends StatelessWidget {
                           MessageTextItem(
                             message: message.message,
                             isMyMessage: message.senderId ==
-                                context.read<AuthCubit>().currentUserId,
+                                context.read<AuthCubit>().currentUser!.id,
                           ),
                         ],
                       ),
