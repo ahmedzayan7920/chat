@@ -1,10 +1,10 @@
-import '../../../core/utils/app_strings.dart';
+import '../../utils/app_strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/models/either.dart';
 import '../../../../core/models/failure.dart';
 import '../../../../core/models/user_model.dart';
-import '../../../core/utils/firebase_constants.dart';
+import '../../utils/firebase_constants.dart';
 import 'user_data_source.dart';
 
 class FirebaseUserDataSource implements UserDataSource {
