@@ -17,7 +17,8 @@ class ChatApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          AuthCubit(authRepository: getIt())..checkAuthStatus(),
+          AuthCubit(authRepository: getIt(), userRepository: getIt())
+            ..checkAuthStatus(),
       child: MaterialApp(
         theme: AppTheme.lightTheme,
         onGenerateRoute: AppRouter.generateRoute,

@@ -23,12 +23,12 @@ import '../../features/notification/data_sources/firebase_notification_data_sour
 import '../../features/notification/data_sources/local_notification_data_source.dart';
 import '../../features/notification/repos/firebase_notification_repository.dart';
 import '../../features/notification/repos/notification_repository.dart';
-import '../../features/users/data_sources/firebase_user_data_source.dart';
-import '../../features/users/data_sources/user_data_source.dart';
-import '../../features/users/repos/firebase_users_repository.dart';
-import '../../features/users/repos/users_repository.dart';
 import '../data_sources/storage/storage_data_source.dart';
 import '../data_sources/storage/supabase_storage_data_source.dart';
+import '../data_sources/user/firebase_user_data_source.dart';
+import '../data_sources/user/user_data_source.dart';
+import '../repos/user/firebase_user_repository.dart';
+import '../repos/user/user_repository.dart';
 
 final getIt = GetIt.instance;
 
@@ -108,7 +108,6 @@ void setupDependencyInjection() {
   getIt.registerLazySingleton<AuthRepository>(
     () => FirebaseAuthRepository(
       authDataSource: getIt(),
-      userDataSource: getIt(),
     ),
   );
 
@@ -120,8 +119,8 @@ void setupDependencyInjection() {
     ),
   );
 
-  getIt.registerLazySingleton<UsersRepository>(
-    () => FirebaseUsersRepository(
+  getIt.registerLazySingleton<UserRepository>(
+    () => FirebaseUserRepository(
       userDataSource: getIt(),
     ),
   );
