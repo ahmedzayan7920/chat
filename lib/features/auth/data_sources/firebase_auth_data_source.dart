@@ -97,8 +97,10 @@ class FirebaseAuthDataSource implements AuthDataSource {
   }
 
   @override
-  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber(
-      {required String phoneNumber}) async {
+  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
+    required String phoneNumber,
+    required bool isLinking,
+  }) async {
     try {
       final completer = Completer<Either<Failure, Either<String, User>>>();
 
@@ -106,7 +108,9 @@ class FirebaseAuthDataSource implements AuthDataSource {
         phoneNumber: phoneNumber,
         verificationCompleted: (credential) async {
           try {
-            final userCredential = await _auth.signInWithCredential(credential);
+            final userCredential = isLinking
+                ? await _auth.currentUser!.linkWithCredential(credential)
+                : await _auth.signInWithCredential(credential);
             final user = userCredential.user;
 
             if (user != null) {
@@ -142,14 +146,16 @@ class FirebaseAuthDataSource implements AuthDataSource {
   Future<Either<Failure, User>> verifyOtpCode({
     required String verificationId,
     required String otp,
+    required bool isLinking,
   }) async {
     try {
       final credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: otp,
       );
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
+      final userCredential = isLinking
+                ? await _auth.currentUser!.linkWithCredential(credential)
+                : await _auth.signInWithCredential(credential);
 
       final user = userCredential.user;
       if (user != null) {

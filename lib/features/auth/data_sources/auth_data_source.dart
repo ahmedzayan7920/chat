@@ -20,11 +20,13 @@ abstract class AuthDataSource {
 
   Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
     required String phoneNumber,
+    required bool isLinking,
   });
 
   Future<Either<Failure, User>> verifyOtpCode({
     required String verificationId,
     required String otp,
+    required bool isLinking,
   });
 
   Future<Either<Failure, Unit>> logout();
