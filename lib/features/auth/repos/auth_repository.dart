@@ -1,33 +1,36 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
-import '../../../core/models/user_model.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, UserModel>> registerWithEmailAndPassword({
+  Future<Either<Failure, User>> registerWithEmailAndPassword({
     required String name,
     required String email,
     required String password,
   });
 
-  Future<Either<Failure, UserModel>> loginWithEmailAndPassword({
+  Future<Either<Failure, User>> loginWithEmailAndPassword({
     required String email,
     required String password,
   });
 
-  Future<Either<Failure, UserModel>> loginWithGoogle();
+  Future<Either<Failure, User>> loginWithGoogle();
 
-  Future<Either<Failure, UserModel>> loginWithFacebook();
+  Future<Either<Failure, User>> loginWithFacebook();
 
-  Future<Either<Failure, Either<String, UserModel>>> verifyPhoneNumber({
+  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
     required String phoneNumber,
+    required bool isLinking,
   });
 
-  Future<Either<Failure, UserModel>> verifyOtpCode({
+  Future<Either<Failure, User>> verifyOtpCode({
     required String verificationId,
     required String otp,
+    required bool isLinking,
   });
 
   Future<Either<Failure, Unit>> logout();
 
-  Future<Either<Failure, UserModel?>> getCurrentUser();
+  Future<Either<Failure, User>> getCurrentUser();
 }
