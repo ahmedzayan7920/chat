@@ -23,6 +23,8 @@ class ChatAppBarTitle extends StatelessWidget {
             width: 40,
             height: 40,
             fit: BoxFit.cover,
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.person_outline),
           ),
         ),
         const HorizontalSpace(width: 10),

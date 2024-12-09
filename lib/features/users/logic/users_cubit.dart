@@ -1,12 +1,12 @@
-import '../repos/users_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/repos/user/user_repository.dart';
 import 'users_state.dart';
 
 class UsersCubit extends Cubit<UsersState> {
-  final UsersRepository _usersRepository;
+  final UserRepository _usersRepository;
 
-  UsersCubit({required UsersRepository usersRepository})
+  UsersCubit({required UserRepository usersRepository})
       : _usersRepository = usersRepository,
         super(const UsersInitialState());
 
