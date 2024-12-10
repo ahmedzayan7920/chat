@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:chat/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/utils/app_strings.dart';
+import '../../../../../core/widgets/custom_elevated_button.dart';
 import '../../../logic/auth_cubit.dart';
 import '../../../logic/auth_state.dart';
 

@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat/core/extensions/extensions.dart';
+import '../../../../../core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/app_routes.dart';

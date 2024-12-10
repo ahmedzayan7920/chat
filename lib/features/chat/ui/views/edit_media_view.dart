@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:chat/core/utils/app_strings.dart';
-import 'package:chat/core/widgets/custom_text_form_field.dart';
-import 'package:chat/core/widgets/spaces.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../../../../core/widgets/custom_text_form_field.dart';
+import '../../../../core/widgets/spaces.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/custom_video_player.dart';

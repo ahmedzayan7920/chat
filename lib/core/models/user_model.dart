@@ -6,9 +6,8 @@ abstract class UserModelKeys {
   static const id = 'id';
   static const name = 'name';
   static const email = 'email';
+  static const phoneNumber = 'phoneNumber';
   static const profilePictureUrl = 'profilePictureUrl';
-  static const isOnline = 'isOnline';
-  static const lastSeen = 'lastSeen';
   static const fcmTokens = 'fcmTokens';
   static const status = 'status';
 }
@@ -17,9 +16,8 @@ class UserModel {
   final String id;
   final String name;
   final String email;
+  final String phoneNumber;
   final String profilePictureUrl;
-  final bool isOnline;
-  final int lastSeen;
   final List<String> fcmTokens;
   final String status;
 
@@ -27,9 +25,8 @@ class UserModel {
     required this.id,
     required this.name,
     required this.email,
+    required this.phoneNumber,
     required this.profilePictureUrl,
-    required this.isOnline,
-    required this.lastSeen,
     required this.fcmTokens,
     required this.status,
   });
@@ -38,6 +35,7 @@ class UserModel {
     required String id,
     required String name,
     required String email,
+    required String phoneNumber,
     String? profilePictureUrl,
     String? status,
     List<String>? fcmTokens,
@@ -46,9 +44,8 @@ class UserModel {
       id: id,
       name: name,
       email: email,
+      phoneNumber: phoneNumber,
       profilePictureUrl: profilePictureUrl ?? AppStrings.emptyString,
-      isOnline: true,
-      lastSeen: DateTime.now().millisecondsSinceEpoch,
       fcmTokens: fcmTokens ?? [],
       status: status ?? AppStrings.defaultUserStatus,
     );
@@ -59,9 +56,8 @@ class UserModel {
       UserModelKeys.id: id,
       UserModelKeys.name: name,
       UserModelKeys.email: email,
+      UserModelKeys.phoneNumber: phoneNumber,
       UserModelKeys.profilePictureUrl: profilePictureUrl,
-      UserModelKeys.isOnline: isOnline,
-      UserModelKeys.lastSeen: lastSeen,
       UserModelKeys.fcmTokens: fcmTokens,
       UserModelKeys.status: status,
     };
@@ -72,10 +68,9 @@ class UserModel {
       id: json[UserModelKeys.id] ?? AppStrings.emptyString,
       name: json[UserModelKeys.name] ?? AppStrings.emptyString,
       email: json[UserModelKeys.email] ?? AppStrings.emptyString,
+      phoneNumber: json[UserModelKeys.phoneNumber] ?? AppStrings.emptyString,
       profilePictureUrl:
           json[UserModelKeys.profilePictureUrl] ?? AppStrings.emptyString,
-      isOnline: json[UserModelKeys.isOnline] ?? false,
-      lastSeen: json[UserModelKeys.lastSeen] ?? 0,
       fcmTokens: List<String>.from(json[UserModelKeys.fcmTokens] ?? []),
       status: json[UserModelKeys.status] ?? AppStrings.emptyString,
     );
@@ -85,6 +80,7 @@ class UserModel {
     String? id,
     String? name,
     String? email,
+    String? phoneNumber,
     String? profilePictureUrl,
     bool? isOnline,
     int? lastSeen,
@@ -95,9 +91,8 @@ class UserModel {
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
-      isOnline: isOnline ?? this.isOnline,
-      lastSeen: lastSeen ?? this.lastSeen,
       fcmTokens: fcmTokens ?? this.fcmTokens,
       status: status ?? this.status,
     );
@@ -105,7 +100,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, profilePictureUrl: $profilePictureUrl, isOnline: $isOnline, lastSeen: $lastSeen, fcmTokens: $fcmTokens, status: $status)';
+    return 'UserModel(id: $id, name: $name, email: $email, phoneNumber: $phoneNumber, profilePictureUrl: $profilePictureUrl, fcmTokens: $fcmTokens, status: $status)';
   }
 
   @override
@@ -116,8 +111,6 @@ class UserModel {
         other.name == name &&
         other.email == email &&
         other.profilePictureUrl == profilePictureUrl &&
-        other.isOnline == isOnline &&
-        other.lastSeen == lastSeen &&
         listEquals(other.fcmTokens, fcmTokens) &&
         other.status == status;
   }
@@ -128,8 +121,6 @@ class UserModel {
         name.hashCode ^
         email.hashCode ^
         profilePictureUrl.hashCode ^
-        isOnline.hashCode ^
-        lastSeen.hashCode ^
         fcmTokens.hashCode ^
         status.hashCode;
   }

@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/enums/message_type.dart';
+import '../../../../core/extensions/extensions.dart';
 import '../../../../core/models/user_model.dart';
 import '../../../../core/utils/app_routes.dart';
 import '../../../auth/logic/auth_cubit.dart';
-import '../../../auth/logic/auth_state.dart';
 import '../../../chat/models/chat_model.dart';
 
 class UsersViewItem extends StatelessWidget {
@@ -23,7 +22,7 @@ class UsersViewItem extends StatelessWidget {
     return ListTile(
       onTap: () {
         final List<String> members = [
-          (context.read<AuthCubit>().state as AuthenticatedState).user.id,
+          (context.read<AuthCubit>().currentUser!.id),
           user.id,
         ];
         ChatModel chat = ChatModel(
@@ -47,10 +46,13 @@ class UsersViewItem extends StatelessWidget {
           width: 50,
           height: 50,
           fit: BoxFit.cover,
+          errorWidget: (context, url, error) =>
+              const Icon(Icons.person_outline),
         ),
       ),
       title: Text(user.name),
-      subtitle: Text(user.email),
+      subtitle: Text(user.email.isEmpty ? 'Phone Number' : user.email),
+      ///TODO: Change to phone number
     );
   }
 }

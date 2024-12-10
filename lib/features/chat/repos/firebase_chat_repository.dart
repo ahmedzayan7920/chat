@@ -1,6 +1,6 @@
-import 'package:chat/core/extensions/extensions.dart';
-import 'package:chat/core/models/either.dart';
-import 'package:chat/core/models/failure.dart';
+import '../../../core/extensions/extensions.dart';
+import '../../../core/models/either.dart';
+import '../../../core/models/failure.dart';
 
 import '../../../core/data_sources/storage/storage_data_source.dart';
 import '../../../core/supabase/supabase_constants.dart';

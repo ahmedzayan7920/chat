@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:chat/core/data_sources/storage/storage_data_source.dart';
-import 'package:chat/core/models/either.dart';
-import 'package:chat/core/models/failure.dart';
+import 'storage_data_source.dart';
+import '../../models/either.dart';
+import '../../models/failure.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseStorageDataSource implements StorageDataSource {

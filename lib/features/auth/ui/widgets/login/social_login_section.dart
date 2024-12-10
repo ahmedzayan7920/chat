@@ -1,7 +1,7 @@
-import 'package:chat/core/utils/app_images.dart';
-import 'package:chat/core/utils/app_routes.dart';
-import 'package:chat/core/utils/app_strings.dart';
-import 'package:chat/core/widgets/spaces.dart';
+import '../../../../../core/utils/app_images.dart';
+import '../../../../../core/utils/app_routes.dart';
+import '../../../../../core/utils/app_strings.dart';
+import '../../../../../core/widgets/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

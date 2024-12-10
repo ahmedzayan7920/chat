@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +23,7 @@ class MessageImageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMyMessage =
-        message.senderId == context.read<AuthCubit>().currentUserId;
+        message.senderId == context.read<AuthCubit>().currentUser!.id;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

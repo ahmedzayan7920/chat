@@ -1,4 +1,4 @@
-import 'package:chat/core/utils/app_strings.dart';
+import '../../../../core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/custom_video_player.dart';

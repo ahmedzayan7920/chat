@@ -1,4 +1,4 @@
-import 'package:chat/core/utils/app_strings.dart';
+import '../../../../../core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

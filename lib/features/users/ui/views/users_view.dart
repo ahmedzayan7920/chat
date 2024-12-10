@@ -1,9 +1,9 @@
-import 'package:chat/core/utils/app_strings.dart';
-import 'package:chat/features/users/logic/users_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/dependency_injection.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../../logic/users_cubit.dart';
 import '../widgets/users_view_body.dart';
 
 class UsersView extends StatelessWidget {

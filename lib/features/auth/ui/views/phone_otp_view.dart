@@ -5,7 +5,7 @@ import '../../../../core/utils/app_strings.dart';
 import '../../../../core/widgets/custom_pinput.dart';
 import '../../logic/auth_cubit.dart';
 import '../../logic/auth_state.dart';
-import 'package:chat/core/widgets/spaces.dart';
+import '../../../../core/widgets/spaces.dart';
 
 import '../widgets/phone_otp/verify_otp_button.dart';
 

@@ -1,10 +1,10 @@
-import 'package:chat/core/utils/app_strings.dart';
+import '../../utils/app_strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/models/either.dart';
 import '../../../../core/models/failure.dart';
 import '../../../../core/models/user_model.dart';
-import '../../../core/utils/firebase_constants.dart';
+import '../../utils/firebase_constants.dart';
 import 'user_data_source.dart';
 
 class FirebaseUserDataSource implements UserDataSource {
@@ -20,6 +20,19 @@ class FirebaseUserDataSource implements UserDataSource {
           .collection(FirebaseConstants.users)
           .doc(user.id)
           .set(user.toJson());
+      return Either.right(user);
+    } catch (e) {
+      return Either.left(Failure.fromException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> updateUserToDatabase(UserModel user) async {
+    try {
+      await _firestore
+          .collection(FirebaseConstants.users)
+          .doc(user.id)
+          .update(user.toJson());
       return Either.right(user);
     } catch (e) {
       return Either.left(Failure.fromException(e));

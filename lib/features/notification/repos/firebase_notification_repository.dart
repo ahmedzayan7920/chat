@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:chat/core/utils/app_strings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import '../../../core/utils/app_strings.dart';
 import '../../auth/data_sources/auth_data_source.dart';
 import '../data_sources/firebase_notification_data_source.dart';
 import '../data_sources/local_notification_data_source.dart';

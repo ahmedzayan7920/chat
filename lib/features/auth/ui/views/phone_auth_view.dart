@@ -1,12 +1,12 @@
-import 'package:chat/core/utils/app_strings.dart';
-import 'package:chat/core/widgets/custom_phone_number_field.dart';
-import 'package:chat/core/widgets/spaces.dart';
-import 'package:chat/features/auth/ui/widgets/phone_auth/verify_phone_number_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_constants.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../../../../core/widgets/custom_phone_number_field.dart';
+import '../../../../core/widgets/spaces.dart';
 import '../../logic/auth_cubit.dart';
+import '../widgets/phone_auth/verify_phone_number_button.dart';
 
 class PhoneAuthView extends StatefulWidget {
   const PhoneAuthView({super.key});

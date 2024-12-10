@@ -1,24 +1,23 @@
-import 'package:chat/core/utils/app_strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../users/data_sources/user_data_source.dart';
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
-import '../../../core/models/user_model.dart';
+import '../../../core/repos/phone/firebase_phone_repository.dart';
+import '../../../core/utils/app_strings.dart';
 import '../data_sources/auth_data_source.dart';
 import 'auth_repository.dart';
 
-class FirebaseAuthRepository implements AuthRepository {
+class FirebaseAuthRepository extends FirebasePhoneRepository
+    implements AuthRepository {
   final AuthDataSource _authDataSource;
-  final UserDataSource _userDataSource;
 
   FirebaseAuthRepository({
     required AuthDataSource authDataSource,
-    required UserDataSource userDataSource,
-  })  : _authDataSource = authDataSource,
-        _userDataSource = userDataSource;
+    required super.phoneDataSource,
+  }) : _authDataSource = authDataSource;
 
   @override
-  Future<Either<Failure, UserModel>> registerWithEmailAndPassword({
+  Future<Either<Failure, User>> registerWithEmailAndPassword({
     required String name,
     required String email,
     required String password,
@@ -28,23 +27,12 @@ class FirebaseAuthRepository implements AuthRepository {
 
     return authResult.fold(
       (failure) => Either.left(failure),
-      (user) async {
-        final userModel = UserModel.newUser(
-          id: user.uid,
-          name: name,
-          email: email,
-        );
-        final saveResult = await _userDataSource.storeUserToDatabase(userModel);
-        return saveResult.fold(
-          (failure) => Either.left(failure),
-          (_) => Either.right(userModel),
-        );
-      },
+      (user) => Either.right(user),
     );
   }
 
   @override
-  Future<Either<Failure, UserModel>> loginWithEmailAndPassword({
+  Future<Either<Failure, User>> loginWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -53,98 +41,29 @@ class FirebaseAuthRepository implements AuthRepository {
 
     return authResult.fold(
       (failure) => Either.left(failure),
-      (user) => _userDataSource.fetchUserFromDatabase(user.uid),
+      (user) => Either.right(user),
     );
   }
 
   @override
-  Future<Either<Failure, UserModel>> loginWithGoogle() async {
+  Future<Either<Failure, User>> loginWithGoogle() async {
     final authResult = await _authDataSource.loginWithGoogle();
 
     return authResult.fold(
       (failure) => Either.left(failure),
       (user) async {
-        final userModel = UserModel.newUser(
-          id: user.uid,
-          name: user.displayName ?? AppStrings.emptyString,
-          email: user.email ?? AppStrings.emptyString,
-          profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
-        );
-        return await _userDataSource.fetchOrSaveUser(userModel);
+        return Either.right(user);
       },
     );
   }
 
   @override
-  Future<Either<Failure, UserModel>> loginWithFacebook() async {
+  Future<Either<Failure, User>> loginWithFacebook() async {
     final authResult = await _authDataSource.loginWithFacebook();
     return authResult.fold(
       (failure) => Either.left(failure),
       (user) async {
-        final userModel = UserModel.newUser(
-          id: user.uid,
-          name: user.displayName ?? AppStrings.emptyString,
-          email: user.email ?? AppStrings.emptyString,
-          profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
-        );
-        return await _userDataSource.fetchOrSaveUser(userModel);
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, Either<String, UserModel>>> verifyPhoneNumber({
-    required String phoneNumber,
-  }) async {
-    final result =
-        await _authDataSource.verifyPhoneNumber(phoneNumber: phoneNumber);
-
-    return result.fold(
-      (failure) => Either.left(failure),
-      (value) async {
-        return value.fold(
-          (verificationId) => Either.right(Either.left(verificationId)),
-          (user) async {
-            final userModel = UserModel.newUser(
-              id: user.uid,
-              name: user.displayName ?? AppStrings.emptyString,
-              email: user.email ?? AppStrings.emptyString,
-              profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
-            );
-
-            final fetchOrSaveResult =
-                await _userDataSource.fetchOrSaveUser(userModel);
-
-            return fetchOrSaveResult.fold(
-              (failure) => Either.left(failure),
-              (userModel) => Either.right(Either.right(userModel)),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, UserModel>> verifyOtpCode({
-    required String verificationId,
-    required String otp,
-  }) async {
-    final result = await _authDataSource.verifyOtpCode(
-      verificationId: verificationId,
-      otp: otp,
-    );
-
-    return result.fold(
-      (failure) => Either.left(failure),
-      (user) async {
-        final userModel = UserModel.newUser(
-          id: user.uid,
-          name: user.displayName ?? AppStrings.emptyString,
-          email: user.email ?? AppStrings.emptyString,
-          profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
-        );
-        return await _userDataSource.fetchOrSaveUser(userModel);
+        return Either.right(user);
       },
     );
   }
@@ -155,17 +74,12 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserModel>> getCurrentUser() async {
+  Future<Either<Failure, User>> getCurrentUser() async {
     final user = _authDataSource.getCurrentUser();
 
     if (user == null) {
       return Either.left(const Failure(AppStrings.userNotFound));
     }
-
-    final result = await _userDataSource.fetchUserFromDatabase(user.uid);
-    return result.fold(
-      (failure) => Either.left(failure),
-      (userModel) => Either.right(userModel),
-    );
+    return Either.right(user);
   }
 }
