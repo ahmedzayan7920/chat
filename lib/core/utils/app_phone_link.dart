@@ -1,3 +1,4 @@
+import 'package:chat/features/auth/logic/auth_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,8 @@ abstract class AppPhoneLink {
             return BlocProvider(
               create: (context) => PhoneLinkCubit(
                 phoneRepository: getIt(),
+                userRepository: getIt(),
+                authCubit: context.read<AuthCubit>(),
               ),
               child: const PhoneLinkBottomSheet(),
             );

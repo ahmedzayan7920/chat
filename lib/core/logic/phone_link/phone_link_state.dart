@@ -35,7 +35,11 @@ final class PhoneLinkOtpVerificationInProgressState extends PhoneLinkState {
   const PhoneLinkOtpVerificationInProgressState();
 }
 
-final class PhoneLinkSuccessState extends PhoneLinkState {
-  const PhoneLinkSuccessState({required this.user});
+final class PhoneLinkOtpSuccessState extends PhoneLinkState {
+  const PhoneLinkOtpSuccessState({required this.user});
   final User user;
+}
+
+final class PhoneLinkSuccessState extends PhoneLinkState {
+  const PhoneLinkSuccessState();
 }

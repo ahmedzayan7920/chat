@@ -20,12 +20,13 @@ class _PhoneLinkBottomSheetState extends State<PhoneLinkBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PhoneLinkCubit, PhoneLinkState>(
-      listener: (context, state) async {
-        if (state is PhoneLinkSuccessState) {
+      listener: (context, state) {
+        if (state is PhoneLinkOtpSuccessState) {
           UserModel userModel = context.read<AuthCubit>().currentUser!.copyWith(
                 phoneNumber: state.user.phoneNumber,
               );
-          await context.read<AuthCubit>().updateUser(userModel);
+          context.read<PhoneLinkCubit>().updateUser(userModel);
+        } else if (state is PhoneLinkSuccessState) {
           Navigator.pop(context);
         }
       },

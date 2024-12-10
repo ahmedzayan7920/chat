@@ -27,6 +27,13 @@ class AuthCubit extends Cubit<AuthState> {
     return null;
   }
 
+  void syncUserData(UserModel updatedUser) {
+    final currentState = state;
+    if (currentState is AuthenticatedState) {
+      emit(AuthenticatedState(user: updatedUser));
+    }
+  }
+
   Future<void> checkAuthStatus() async {
     emit(const AuthLoadingState());
 
@@ -198,7 +205,7 @@ class AuthCubit extends Cubit<AuthState> {
           id: user.uid,
           name: user.displayName ?? user.phoneNumber ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
-          phoneNumber: user.phoneNumber??AppStrings.emptyString,
+          phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
         );
         final fetchOrSaveResult =
@@ -220,17 +227,6 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (_) => emit(const UnauthenticatedState()),
-    );
-  }
-
-
-
-  Future updateUser(UserModel userModel) async {
-    final fetchOrSaveResult = await _userRepository.updateUserToDatabase(userModel);
-
-    fetchOrSaveResult.fold(
-      (failure) => emit(AuthErrorState(message: failure.message)),
-      (userModel) => emit(AuthenticatedState(user: userModel)),
     );
   }
 }

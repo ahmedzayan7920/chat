@@ -45,7 +45,7 @@ class _PhoneLinkBottomSheetBodyState extends State<PhoneLinkBottomSheetBody> {
             if (widget.state is PhoneLinkOtpSentState ||
                 widget.state is PhoneLinkOtpVerificationInProgressState ||
                 widget.state is PhoneLinkOtpFailureState ||
-                widget.state is PhoneLinkSuccessState)
+                widget.state is PhoneLinkOtpSuccessState)
               CustomPinput(
                 isEnabled: true,
                 onChanged: onOtpChanged,
@@ -60,12 +60,12 @@ class _PhoneLinkBottomSheetBodyState extends State<PhoneLinkBottomSheetBody> {
             if (widget.state is PhoneLinkOtpSentState ||
                 widget.state is PhoneLinkOtpVerificationInProgressState ||
                 widget.state is PhoneLinkOtpFailureState ||
-                widget.state is PhoneLinkSuccessState)
+                widget.state is PhoneLinkOtpSuccessState)
               CustomElevatedButton(
                 text: AppStrings.verifyOtp,
                 isLoading:
                     (widget.state is PhoneLinkOtpVerificationInProgressState ||
-                        widget.state is PhoneLinkSuccessState),
+                        widget.state is PhoneLinkOtpSuccessState),
                 onPressed: isOtpValid ? otpButtonOnPressed : null,
               )
             else
