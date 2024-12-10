@@ -1,3 +1,5 @@
+import 'package:chat/core/data_sources/phone/phone_data_source.dart';
+import 'package:chat/core/repos/phone/phone_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,10 +25,12 @@ import '../../features/notification/data_sources/firebase_notification_data_sour
 import '../../features/notification/data_sources/local_notification_data_source.dart';
 import '../../features/notification/repos/firebase_notification_repository.dart';
 import '../../features/notification/repos/notification_repository.dart';
+import '../data_sources/phone/firebase_phone_data_source.dart';
 import '../data_sources/storage/storage_data_source.dart';
 import '../data_sources/storage/supabase_storage_data_source.dart';
 import '../data_sources/user/firebase_user_data_source.dart';
 import '../data_sources/user/user_data_source.dart';
+import '../repos/phone/firebase_phone_repository.dart';
 import '../repos/user/firebase_user_repository.dart';
 import '../repos/user/user_repository.dart';
 
@@ -104,10 +108,17 @@ void setupDependencyInjection() {
     ),
   );
 
+  getIt.registerLazySingleton<PhoneDataSource>(
+    () => FirebasePhoneDataSource(
+      auth: getIt(),
+    ),
+  );
+
   // Register repositories
   getIt.registerLazySingleton<AuthRepository>(
     () => FirebaseAuthRepository(
       authDataSource: getIt(),
+      phoneDataSource: getIt(),
     ),
   );
 
@@ -135,6 +146,12 @@ void setupDependencyInjection() {
   getIt.registerLazySingleton<ChatsRepository>(
     () => FirebaseChatsRepository(
       chatsDataSource: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<PhoneRepository>(
+    () => FirebasePhoneRepository(
+      phoneDataSource: getIt(),
     ),
   );
 }
