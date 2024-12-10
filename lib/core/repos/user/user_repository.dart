@@ -5,6 +5,8 @@ import '../../models/failure.dart';
 abstract class UserRepository {
   Future<Either<Failure, UserModel>> storeUserToDatabase(UserModel user);
 
+  Future<Either<Failure, UserModel>> updateUserToDatabase(UserModel user);
+
   Future<Either<Failure, UserModel>> fetchUserFromDatabase(String userId);
 
   Future<Either<Failure, UserModel>> fetchOrSaveUser(UserModel userModel);

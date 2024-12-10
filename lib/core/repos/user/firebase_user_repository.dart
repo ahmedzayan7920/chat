@@ -12,8 +12,13 @@ class FirebaseUserRepository implements UserRepository {
   }) : _userDataSource = userDataSource;
   
   @override
-  Future<Either<Failure, UserModel>> fetchOrSaveUser(UserModel userModel) async {
-    return _userDataSource.fetchOrSaveUser(userModel);
+  Future<Either<Failure, UserModel>> storeUserToDatabase(UserModel user) async {
+    return _userDataSource.storeUserToDatabase(user);
+  }
+  
+  @override
+  Future<Either<Failure, UserModel>> updateUserToDatabase(UserModel user) async {
+    return _userDataSource.updateUserToDatabase(user);
   }
   
   @override
@@ -22,8 +27,8 @@ class FirebaseUserRepository implements UserRepository {
   }
   
   @override
-  Future<Either<Failure, UserModel>> storeUserToDatabase(UserModel user) async {
-    return _userDataSource.storeUserToDatabase(user);
+  Future<Either<Failure, UserModel>> fetchOrSaveUser(UserModel userModel) async {
+    return _userDataSource.fetchOrSaveUser(userModel);
   }
 
   @override
