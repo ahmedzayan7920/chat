@@ -1,9 +1,10 @@
+import 'package:chat/core/data_sources/phone/phone_data_source.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
 
-abstract class AuthDataSource {
+abstract class AuthDataSource extends PhoneDataSource {
   Future<Either<Failure, User>> loginWithEmailAndPassword({
     required String email,
     required String password,
@@ -17,17 +18,6 @@ abstract class AuthDataSource {
   Future<Either<Failure, User>> loginWithGoogle();
 
   Future<Either<Failure, User>> loginWithFacebook();
-
-  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
-    required String phoneNumber,
-    required bool isLinking,
-  });
-
-  Future<Either<Failure, User>> verifyOtpCode({
-    required String verificationId,
-    required String otp,
-    required bool isLinking,
-  });
 
   Future<Either<Failure, Unit>> logout();
 
