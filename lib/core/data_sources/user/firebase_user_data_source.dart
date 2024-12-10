@@ -27,6 +27,19 @@ class FirebaseUserDataSource implements UserDataSource {
   }
 
   @override
+  Future<Either<Failure, UserModel>> updateUserToDatabase(UserModel user) async {
+    try {
+      await _firestore
+          .collection(FirebaseConstants.users)
+          .doc(user.id)
+          .update(user.toJson());
+      return Either.right(user);
+    } catch (e) {
+      return Either.left(Failure.fromException(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, UserModel>> fetchUserFromDatabase(
       String userId) async {
     try {
