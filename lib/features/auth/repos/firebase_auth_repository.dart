@@ -2,15 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
+import '../../../core/repos/phone/firebase_phone_repository.dart';
 import '../../../core/utils/app_strings.dart';
 import '../data_sources/auth_data_source.dart';
 import 'auth_repository.dart';
 
-class FirebaseAuthRepository implements AuthRepository {
+class FirebaseAuthRepository extends FirebasePhoneRepository
+    implements AuthRepository {
   final AuthDataSource _authDataSource;
 
   FirebaseAuthRepository({
     required AuthDataSource authDataSource,
+    required super.phoneDataSource,
   }) : _authDataSource = authDataSource;
 
   @override
@@ -58,47 +61,6 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<Either<Failure, User>> loginWithFacebook() async {
     final authResult = await _authDataSource.loginWithFacebook();
     return authResult.fold(
-      (failure) => Either.left(failure),
-      (user) async {
-        return Either.right(user);
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
-    required String phoneNumber,
-    required bool isLinking,
-  }) async {
-    final result = await _authDataSource.verifyPhoneNumber(
-        phoneNumber: phoneNumber, isLinking: isLinking);
-
-    return result.fold(
-      (failure) => Either.left(failure),
-      (value) async {
-        return value.fold(
-          (verificationId) => Either.right(Either.left(verificationId)),
-          (user) async {
-            return Either.right(Either.right(user));
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Future<Either<Failure, User>> verifyOtpCode({
-    required String verificationId,
-    required String otp,
-    required bool isLinking,
-  }) async {
-    final result = await _authDataSource.verifyOtpCode(
-      verificationId: verificationId,
-      otp: otp,
-      isLinking: isLinking,
-    );
-
-    return result.fold(
       (failure) => Either.left(failure),
       (user) async {
         return Either.right(user);

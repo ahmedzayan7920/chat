@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
+import '../../../core/repos/phone/phone_repository.dart';
 
-abstract class AuthRepository {
+abstract class AuthRepository extends PhoneRepository {
   Future<Either<Failure, User>> registerWithEmailAndPassword({
     required String name,
     required String email,
@@ -18,17 +19,6 @@ abstract class AuthRepository {
   Future<Either<Failure, User>> loginWithGoogle();
 
   Future<Either<Failure, User>> loginWithFacebook();
-
-  Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
-    required String phoneNumber,
-    required bool isLinking,
-  });
-
-  Future<Either<Failure, User>> verifyOtpCode({
-    required String verificationId,
-    required String otp,
-    required bool isLinking,
-  });
 
   Future<Either<Failure, Unit>> logout();
 
