@@ -59,6 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
           id: user.uid,
           name: name,
           email: email,
+          phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
         );
         final saveResult = await _userRepository.storeUserToDatabase(userModel);
         saveResult.fold(
@@ -102,6 +103,7 @@ class AuthCubit extends Cubit<AuthState> {
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
+          phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
         );
         final fetchOrSaveResult =
@@ -126,6 +128,7 @@ class AuthCubit extends Cubit<AuthState> {
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
+          phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
         );
         final fetchOrSaveResult =
@@ -159,6 +162,7 @@ class AuthCubit extends Cubit<AuthState> {
                   user.phoneNumber ??
                   AppStrings.emptyString,
               email: user.email ?? AppStrings.emptyString,
+              phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
               profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
             );
 
@@ -194,6 +198,7 @@ class AuthCubit extends Cubit<AuthState> {
           id: user.uid,
           name: user.displayName ?? user.phoneNumber ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
+          phoneNumber: user.phoneNumber??AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
         );
         final fetchOrSaveResult =
@@ -215,6 +220,17 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (_) => emit(const UnauthenticatedState()),
+    );
+  }
+
+
+
+  Future updateUser(UserModel userModel) async {
+    final fetchOrSaveResult = await _userRepository.updateUserToDatabase(userModel);
+
+    fetchOrSaveResult.fold(
+      (failure) => emit(AuthErrorState(message: failure.message)),
+      (userModel) => emit(AuthenticatedState(user: userModel)),
     );
   }
 }
