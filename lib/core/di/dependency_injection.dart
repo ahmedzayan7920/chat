@@ -31,6 +31,8 @@ import '../data_sources/storage/supabase_storage_data_source.dart';
 import '../data_sources/user/firebase_user_data_source.dart';
 import '../data_sources/user/user_data_source.dart';
 import '../repos/phone/firebase_phone_repository.dart';
+import '../repos/storage/storage_repository.dart';
+import '../repos/storage/supabase_storage_repository.dart';
 import '../repos/user/firebase_user_repository.dart';
 import '../repos/user/user_repository.dart';
 
@@ -152,6 +154,12 @@ void setupDependencyInjection() {
   getIt.registerLazySingleton<PhoneRepository>(
     () => FirebasePhoneRepository(
       phoneDataSource: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<StorageRepository>(
+    () => SupabaseStorageRepository(
+      storageDataSource: getIt(),
     ),
   );
 }
