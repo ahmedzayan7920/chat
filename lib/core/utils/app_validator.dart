@@ -76,4 +76,15 @@ abstract class AppValidator {
     }
     return null;
   }
+
+  /* 
+    Field validation
+  */
+
+  static String? validateField(String? value, String fieldName) {
+    if (value == null || value.isEmpty) {
+      return "$fieldName ${AppStrings.isRequired}";
+    }
+    return null;
+  }
 }

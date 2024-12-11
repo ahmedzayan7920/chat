@@ -60,4 +60,10 @@ abstract class AppStrings {
   static const String failedToLoadImage= "Failed to load image";
   static const String failedToPickMedia= "Failed to pick media:";
   static const String video= "Video";
+  static const String profile= "Profile";
+  static const String editProfile= "Edit Profile";
+  static const String isRequired = "is required.";
+  static const String statusHint = "Status";
+  static const String save = "Save";
+  static const String googleLoginAborted = "Google login aborted.";
 }

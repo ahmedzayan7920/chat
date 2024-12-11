@@ -11,6 +11,7 @@ abstract class AuthDataSource extends PhoneDataSource {
   });
 
   Future<Either<Failure, User>> registerWithEmailAndPassword({
+    required String name,
     required String email,
     required String password,
   });

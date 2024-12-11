@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chat/core/repos/user/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/enums/phone_auth_type.dart';
 import '../../../core/models/user_model.dart';
 import '../../../core/utils/app_strings.dart';
 import '../repos/auth_repository.dart';
@@ -25,6 +26,13 @@ class AuthCubit extends Cubit<AuthState> {
       return currentState.user;
     }
     return null;
+  }
+
+  void syncUserData(UserModel updatedUser) {
+    final currentState = state;
+    if (currentState is AuthenticatedState) {
+      emit(AuthenticatedState(user: updatedUser));
+    }
   }
 
   Future<void> checkAuthStatus() async {
@@ -146,7 +154,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await _authRepository.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      isLinking: false,
+      phoneAuthType: PhoneAuthType.auth,
     );
 
     result.fold(
@@ -188,7 +196,7 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await _authRepository.verifyOtpCode(
       verificationId: verificationId,
       otp: otp,
-      isLinking: false,
+      phoneAuthType: PhoneAuthType.auth,
     );
 
     result.fold(
@@ -198,7 +206,7 @@ class AuthCubit extends Cubit<AuthState> {
           id: user.uid,
           name: user.displayName ?? user.phoneNumber ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
-          phoneNumber: user.phoneNumber??AppStrings.emptyString,
+          phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
         );
         final fetchOrSaveResult =
@@ -220,17 +228,6 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (_) => emit(const UnauthenticatedState()),
-    );
-  }
-
-
-
-  Future updateUser(UserModel userModel) async {
-    final fetchOrSaveResult = await _userRepository.updateUserToDatabase(userModel);
-
-    fetchOrSaveResult.fold(
-      (failure) => emit(AuthErrorState(message: failure.message)),
-      (userModel) => emit(AuthenticatedState(user: userModel)),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:chat/features/profile/ui/views/edit_profile_view.dart';
+import 'package:chat/features/profile/ui/views/profile_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/ui/views/login_view.dart';
@@ -49,6 +51,19 @@ class AppRouter {
           builder: (_) => VideoPlayerView(
             videoUrl: videoUrl,
           ),
+        );
+
+      case AppRoutes.profile:
+        final id = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => ProfileView(
+            id: id,
+          ),
+        );
+
+      case AppRoutes.editProfile:
+        return MaterialPageRoute(
+          builder: (_) => EditProfileView(),
         );
       default:
         return MaterialPageRoute(

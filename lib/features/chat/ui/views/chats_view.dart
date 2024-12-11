@@ -1,4 +1,5 @@
-import 'package:chat/core/utils/app_phone_link.dart';
+import 'package:chat/core/utils/app_phone_link_or_update.dart';
+import 'package:chat/features/chat/ui/widgets/common/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,7 +8,6 @@ import '../../../../core/utils/app_routes.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../../logic/chats/chats_cubit.dart';
-import '../widgets/chats/chats_logout_button.dart';
 import '../widgets/chats/chats_view_body.dart';
 
 class ChatsView extends StatefulWidget {
@@ -23,9 +23,8 @@ class _ChatsViewState extends State<ChatsView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        AppPhoneLink.checkAndShowPhoneLinkBottomSheet(
-          context,
-          mounted: mounted,
+        AppPhoneLinkOrUpdate.checkAndShowPhoneBottomSheetForLink(
+          context: context,
         );
       }
     });
@@ -39,9 +38,7 @@ class _ChatsViewState extends State<ChatsView> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(AppStrings.chats),
-          actions: const [
-            ChatsLogoutButton(),
-          ],
+          titleSpacing: 0,
         ),
         body: const ChatsViewBody(),
         floatingActionButton: FloatingActionButton(
@@ -50,6 +47,7 @@ class _ChatsViewState extends State<ChatsView> {
           },
           child: const Icon(Icons.chat_outlined),
         ),
+        drawer: CustomDrawer(),
       ),
     );
   }
