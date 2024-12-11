@@ -15,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
     this.textCapitalization = TextCapitalization.none,
-    this.maxLength = 50,
+    this.maxLength,
     this.maxLines = 1,
   });
   final String label;
@@ -28,7 +28,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final TextCapitalization textCapitalization;
-  final int maxLength;
+  final int? maxLength;
   final int? maxLines;
 
   @override

@@ -2,6 +2,7 @@ import 'package:chat/core/repos/phone/phone_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../data_sources/phone/phone_data_source.dart';
+import '../../enums/phone_auth_type.dart';
 import '../../models/either.dart';
 import '../../models/failure.dart';
 
@@ -13,10 +14,10 @@ class FirebasePhoneRepository implements PhoneRepository {
   @override
   Future<Either<Failure, Either<String, User>>> verifyPhoneNumber({
     required String phoneNumber,
-    required bool isLinking,
+    required PhoneAuthType phoneAuthType,
   }) async {
     final result = await _phoneDataSource.verifyPhoneNumber(
-        phoneNumber: phoneNumber, isLinking: isLinking);
+        phoneNumber: phoneNumber, phoneAuthType: phoneAuthType);
 
     return result.fold(
       (failure) => Either.left(failure),
@@ -35,12 +36,12 @@ class FirebasePhoneRepository implements PhoneRepository {
   Future<Either<Failure, User>> verifyOtpCode({
     required String verificationId,
     required String otp,
-    required bool isLinking,
+    required PhoneAuthType phoneAuthType,
   }) async {
     final result = await _phoneDataSource.verifyOtpCode(
       verificationId: verificationId,
       otp: otp,
-      isLinking: isLinking,
+      phoneAuthType: phoneAuthType,
     );
 
     return result.fold(

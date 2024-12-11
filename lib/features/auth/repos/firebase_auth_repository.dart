@@ -23,7 +23,10 @@ class FirebaseAuthRepository extends FirebasePhoneRepository
     required String password,
   }) async {
     final authResult = await _authDataSource.registerWithEmailAndPassword(
-        email: email, password: password);
+      name: name,
+      email: email,
+      password: password,
+    );
 
     return authResult.fold(
       (failure) => Either.left(failure),

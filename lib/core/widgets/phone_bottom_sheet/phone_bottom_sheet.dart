@@ -1,32 +1,33 @@
-import 'package:chat/core/logic/phone_link/phone_link_cubit.dart';
+import 'package:chat/core/logic/phone_link_or_update/phone_link_or_update_cubit.dart';
 import 'package:chat/core/models/user_model.dart';
 import 'package:chat/features/auth/logic/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/phone_link/phone_link_state.dart';
+import '../../logic/phone_link_or_update/phone_link_or_update_state.dart';
 import '../spaces.dart';
-import 'phone_link_bottom_sheet_body.dart';
-import 'phone_link_bottom_sheet_header.dart';
+import 'phone_bottom_sheet_body.dart';
+import 'phone_bottom_sheet_header.dart';
 
-class PhoneLinkBottomSheet extends StatefulWidget {
-  const PhoneLinkBottomSheet({super.key});
+class PhoneBottomSheet extends StatefulWidget {
+  const PhoneBottomSheet({super.key, required this.isLinking});
+  final bool isLinking;
 
   @override
-  State<PhoneLinkBottomSheet> createState() => _PhoneLinkBottomSheetState();
+  State<PhoneBottomSheet> createState() => _PhoneBottomSheetState();
 }
 
-class _PhoneLinkBottomSheetState extends State<PhoneLinkBottomSheet> {
+class _PhoneBottomSheetState extends State<PhoneBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PhoneLinkCubit, PhoneLinkState>(
+    return BlocConsumer<PhoneLinkOrUpdateCubit, PhoneLinkOrUpdateState>(
       listener: (context, state) {
-        if (state is PhoneLinkOtpSuccessState) {
+        if (state is PhoneLinkOrUpdateOtpSuccessState) {
           UserModel userModel = context.read<AuthCubit>().currentUser!.copyWith(
                 phoneNumber: state.user.phoneNumber,
               );
-          context.read<PhoneLinkCubit>().updateUser(userModel);
-        } else if (state is PhoneLinkSuccessState) {
+          context.read<PhoneLinkOrUpdateCubit>().updateUser(userModel);
+        } else if (state is PhoneLinkOrUpdateSuccessState) {
           Navigator.pop(context);
         }
       },
@@ -41,9 +42,9 @@ class _PhoneLinkBottomSheetState extends State<PhoneLinkBottomSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PhoneLinkBottomSheetHeader(),
+              PhoneBottomSheetHeader(isLinking: widget.isLinking),
               VerticalSpace(height: 16),
-              PhoneLinkBottomSheetBody(state: state),
+              PhoneBottomSheetBody(state: state, isLinking: widget.isLinking),
             ],
           ),
         );

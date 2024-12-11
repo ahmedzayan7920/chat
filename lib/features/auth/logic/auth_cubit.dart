@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chat/core/repos/user/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/enums/phone_auth_type.dart';
 import '../../../core/models/user_model.dart';
 import '../../../core/utils/app_strings.dart';
 import '../repos/auth_repository.dart';
@@ -153,7 +154,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await _authRepository.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      isLinking: false,
+      phoneAuthType: PhoneAuthType.auth,
     );
 
     result.fold(
@@ -195,7 +196,7 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await _authRepository.verifyOtpCode(
       verificationId: verificationId,
       otp: otp,
-      isLinking: false,
+      phoneAuthType: PhoneAuthType.auth,
     );
 
     result.fold(

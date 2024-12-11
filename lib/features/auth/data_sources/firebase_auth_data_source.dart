@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chat/core/data_sources/phone/firebase_phone_data_source.dart';
+import 'package:chat/core/utils/app_strings.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -41,6 +42,7 @@ class FirebaseAuthDataSource extends FirebasePhoneDataSource implements AuthData
 
   @override
   Future<Either<Failure, User>> registerWithEmailAndPassword({
+    required String name,
     required String email,
     required String password,
   }) async {
@@ -49,7 +51,11 @@ class FirebaseAuthDataSource extends FirebasePhoneDataSource implements AuthData
         email: email,
         password: password,
       );
-      return Either.right(credential.user!);
+      if (credential.user == null) {
+        return Either.left(const Failure(AppStrings.userNotFound));
+      }
+      await credential.user!.updateDisplayName(name);
+      return Either.right(_auth.currentUser!);
     } catch (e) {
       return Either.left(Failure.fromException(e));
     }
@@ -61,7 +67,7 @@ class FirebaseAuthDataSource extends FirebasePhoneDataSource implements AuthData
       await _googleSignIn.signOut();
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        return Either.left(const Failure('Google sign-in aborted.'));
+        return Either.left(const Failure(AppStrings.googleLoginAborted));
       }
 
       final googleAuth = await googleUser.authentication;
