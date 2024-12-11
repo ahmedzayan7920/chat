@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/phone_link/phone_link_cubit.dart';
+import '../../logic/phone_link_or_update/phone_link_or_update_cubit.dart';
 
-class PhoneLinkBottomSheetHeader extends StatelessWidget {
-  const PhoneLinkBottomSheetHeader({
+class PhoneBottomSheetHeader extends StatelessWidget {
+  const PhoneBottomSheetHeader({
     super.key,
+    required this.isLinking,
   });
+  final bool isLinking;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class PhoneLinkBottomSheetHeader extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
               onPressed: () {
-                context.read<PhoneLinkCubit>().emitInitial();
+                context.read<PhoneLinkOrUpdateCubit>().emitInitial();
               },
             ),
             IconButton(
@@ -39,7 +41,7 @@ class PhoneLinkBottomSheetHeader extends StatelessWidget {
           ],
         ),
         Text(
-          'Link your account with phone number',
+          isLinking? 'Link your account with phone number': 'Update your phone number',
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
