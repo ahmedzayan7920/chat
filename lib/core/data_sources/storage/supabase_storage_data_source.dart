@@ -20,6 +20,9 @@ class SupabaseStorageDataSource implements StorageDataSource {
     try {
       File file = File(filePath);
       String fullName = '$fileName.${file.path.split('.').last}';
+      await _supabaseClient.storage.from(bucketName).remove(
+        [fullName],
+      );
       await _supabaseClient.storage.from(bucketName).upload(
             fullName,
             file,
