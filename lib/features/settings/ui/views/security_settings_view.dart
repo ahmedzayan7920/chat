@@ -1,4 +1,5 @@
 import 'package:chat/core/models/user_model.dart';
+import 'package:chat/core/utils/app_phone_link_or_update.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +23,13 @@ class SecuritySettingsView extends StatelessWidget {
             title: Text(currentUser.email),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              currentUser.phoneNumber.isNotEmpty
+                  ? AppPhoneLinkOrUpdate.showPhoneBottomSheetForUpdate(
+                      context: context)
+                  : AppPhoneLinkOrUpdate.checkAndShowPhoneBottomSheetForLink(
+                      context: context);
+            },
             leading: Icon(Icons.phone_outlined),
             title: Text(
               currentUser.phoneNumber.isNotEmpty
