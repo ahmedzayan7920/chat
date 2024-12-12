@@ -10,4 +10,5 @@ abstract class AppRoutes {
   static const String videoPlayer = '/videoPlayer';
   static const String profile = '/profile';
   static const String editProfile = '/editProfile';
+  static const String settings = '/settings';
 }

@@ -1,5 +1,6 @@
 import 'package:chat/features/profile/ui/views/edit_profile_view.dart';
 import 'package:chat/features/profile/ui/views/profile_view.dart';
+import 'package:chat/features/settings/ui/views/settings_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/ui/views/login_view.dart';
@@ -64,6 +65,10 @@ class AppRouter {
       case AppRoutes.editProfile:
         return MaterialPageRoute(
           builder: (_) => EditProfileView(),
+        );
+      case AppRoutes.settings:
+        return MaterialPageRoute(
+          builder: (_) => SettingsView(),
         );
       default:
         return MaterialPageRoute(
