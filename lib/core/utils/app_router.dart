@@ -1,5 +1,6 @@
 import 'package:chat/features/profile/ui/views/edit_profile_view.dart';
 import 'package:chat/features/profile/ui/views/profile_view.dart';
+import 'package:chat/features/settings/ui/views/security_settings_view.dart';
 import 'package:chat/features/settings/ui/views/settings_view.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +70,10 @@ class AppRouter {
       case AppRoutes.settings:
         return MaterialPageRoute(
           builder: (_) => SettingsView(),
+        );
+      case AppRoutes.securitySettings:
+        return MaterialPageRoute(
+          builder: (_) => SecuritySettingsView(),
         );
       default:
         return MaterialPageRoute(
