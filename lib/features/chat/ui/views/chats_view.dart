@@ -26,6 +26,7 @@ class _ChatsViewState extends State<ChatsView> {
         AppPhoneLinkOrUpdate.checkAndShowPhoneBottomSheetForLink(
           context: context,
         );
+        context.read<AuthCubit>().updateUserEmail();
       }
     });
   }

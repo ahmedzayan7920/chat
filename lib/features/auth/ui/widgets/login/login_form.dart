@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/widgets/custom_password_field.dart';
 import '../../../../../core/widgets/spaces.dart';
 import 'login_button.dart';
 import 'login_email_field.dart';
-import 'login_password_field.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           LoginEmailField(controller: _emailController),
           const VerticalSpace(height: 16),
-          LoginPasswordField(controller: _passwordController),
+          CustomPasswordField(controller: _passwordController),
           const VerticalSpace(height: 16),
           LoginButton(
             emailController: _emailController,

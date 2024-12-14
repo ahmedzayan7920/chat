@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/utils/app_strings.dart';
-import '../../../../../core/utils/app_validator.dart';
-import '../../../../../core/widgets/custom_text_form_field.dart';
+import '../utils/app_strings.dart';
+import '../utils/app_validator.dart';
+import 'custom_text_form_field.dart';
 
-class RegisterConfirmPasswordField extends StatefulWidget {
-  const RegisterConfirmPasswordField({
+class CustomConfirmPasswordField extends StatefulWidget {
+  const CustomConfirmPasswordField({
     super.key,
     required this.controller,
     required this.confirmController,
@@ -14,12 +14,12 @@ class RegisterConfirmPasswordField extends StatefulWidget {
   final TextEditingController confirmController;
 
   @override
-  State<RegisterConfirmPasswordField> createState() =>
-      _RegisterConfirmPasswordFieldState();
+  State<CustomConfirmPasswordField> createState() =>
+      _CustomConfirmPasswordFieldState();
 }
 
-class _RegisterConfirmPasswordFieldState
-    extends State<RegisterConfirmPasswordField> {
+class _CustomConfirmPasswordFieldState
+    extends State<CustomConfirmPasswordField> {
   bool _obscureText = true;
   @override
   Widget build(BuildContext context) {

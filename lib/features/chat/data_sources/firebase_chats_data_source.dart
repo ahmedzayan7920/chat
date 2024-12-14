@@ -1,10 +1,10 @@
-import '../../../core/models/either.dart';
-import '../../../core/models/failure.dart';
-import '../../../core/utils/firebase_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../core/models/either.dart';
+import '../../../core/models/failure.dart';
 import '../../../core/models/user_model.dart';
 import '../../../core/utils/app_strings.dart';
+import '../../../core/utils/firebase_constants.dart';
 import '../models/chat_model.dart';
 import 'chats_data_source.dart';
 
@@ -15,50 +15,49 @@ class FirebaseChatsDataSource implements ChatsDataSource {
       : _firestore = firestore;
 
   @override
-Stream<Either<Failure, List<ChatModel>>> fetchChats({
-  required String currentUserId,
-}) async* {
-  try {
-    final chatStream = _firestore
-        .collection(FirebaseConstants.chats)
-        .where(ChatModelKeys.members, arrayContains: currentUserId)
-        .orderBy(ChatModelKeys.lastMessageTime, descending: true)
-        .snapshots();
+  Stream<Either<Failure, List<ChatModel>>> fetchChats({
+    required String currentUserId,
+  }) async* {
+    try {
+      final chatStream = _firestore
+          .collection(FirebaseConstants.chats)
+          .where(ChatModelKeys.members, arrayContains: currentUserId)
+            .orderBy('${ChatModelKeys.lastMessageModel}.${ChatModelKeys.lastMessageTime}', descending: true)
+          .snapshots();
 
-    await for (final snapshot in chatStream) {
-      if (snapshot.docs.isEmpty) {
-        yield Either.right([]);
-      } else {
-        final chatModels = snapshot.docs.map((doc) {
-          return ChatModel.fromJson(doc.data());
-        }).toList();
+      await for (final snapshot in chatStream) {
+        if (snapshot.docs.isEmpty) {
+          yield Either.right([]);
+        } else {
+          final chatModels = snapshot.docs.map((doc) {
+            return ChatModel.fromJson(doc.data());
+          }).toList();
 
-        final userIds = _extractUserIds(chatModels, currentUserId);
-        final userMap = await _fetchUserDetails(userIds);
+          final userIds = _extractUserIds(chatModels, currentUserId);
+          final userMap = await _fetchUserDetails(userIds);
 
-        final chats = chatModels.map((chat) {
-          final otherUserId = chat.members.firstWhere(
-            (id) => id != currentUserId,
-            orElse: () => currentUserId,
-          );
-          final userDetails = userMap[otherUserId];
-          return chat.copyWith(
-            userName:
-                userDetails?[UserModelKeys.name] ?? AppStrings.emptyString,
-            userProfilePictureUrl:
-                userDetails?[UserModelKeys.profilePictureUrl] ??
-                    AppStrings.emptyString,
-          );
-        }).toList();
+          final chats = chatModels.map((chat) {
+            final otherUserId = chat.members.firstWhere(
+              (id) => id != currentUserId,
+              orElse: () => currentUserId,
+            );
+            final userDetails = userMap[otherUserId];
+            return chat.copyWith(
+              userName:
+                  userDetails?[UserModelKeys.name] ?? AppStrings.emptyString,
+              userProfilePictureUrl:
+                  userDetails?[UserModelKeys.profilePictureUrl] ??
+                      AppStrings.emptyString,
+            );
+          }).toList();
 
-        yield Either.right(chats);
+          yield Either.right(chats);
+        }
       }
+    } catch (e) {
+      yield Either.left(Failure.fromException(e));
     }
-  } catch (e) {
-    yield Either.left(Failure.fromException(e));
   }
-}
-
 
   List<String> _extractUserIds(List<ChatModel> chats, String currentUserId) {
     return chats

@@ -54,16 +54,22 @@ class FirebaseChatDataSource implements ChatDataSource {
         final newChat = ChatModel(
           id: chatId,
           members: [currentUserId, otherUserId],
-          lastMessage: message.message,
-          lastMessageTime: message.time,
-          type: message.type,
+          lastMessageModel: LastMessageModel(
+            lastMessage: message.message,
+            lastMessageTime: message.time,
+            type: message.type,
+            isSeen: false,
+          ),
         );
         await chatDoc.set(newChat.toJson());
       } else {
         await chatDoc.update({
-          ChatModelKeys.lastMessage: message.message,
-          ChatModelKeys.lastMessageTime: message.time,
-          ChatModelKeys.type: message.type.name,
+          ChatModelKeys.lastMessageModel: LastMessageModel(
+            lastMessage: message.message,
+            lastMessageTime: message.time,
+            type: message.type,
+            isSeen: false,
+          ).toJson(),
         });
       }
 

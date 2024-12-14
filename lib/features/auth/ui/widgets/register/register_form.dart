@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/widgets/custom_confirm_password_field.dart';
+import '../../../../../core/widgets/custom_password_field.dart';
 import '../../../../../core/widgets/spaces.dart';
 import 'register_button.dart';
-import 'register_confirm_password_field.dart';
 import 'register_email_field.dart';
 import 'register_name_field.dart';
-import 'register_password_field.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -52,9 +52,9 @@ class _RegisterFormState extends State<RegisterForm> {
           const VerticalSpace(height: 16),
           RegisterEmailField(controller: _emailController),
           const VerticalSpace(height: 16),
-          RegisterPasswordField(controller: _passwordController),
+          CustomPasswordField(controller: _passwordController),
           const VerticalSpace(height: 16),
-          RegisterConfirmPasswordField(
+          CustomConfirmPasswordField(
             controller: _passwordController,
             confirmController: _confirmPasswordController,
           ),
