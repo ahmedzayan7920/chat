@@ -22,5 +22,5 @@ abstract class AuthDataSource extends PhoneDataSource {
 
   Future<Either<Failure, Unit>> logout();
 
-  User? getCurrentUser();
+  Future<User?> getCurrentUser();
 }
