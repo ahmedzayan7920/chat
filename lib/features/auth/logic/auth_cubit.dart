@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chat/core/repos/user/user_repository.dart';
+import 'package:chat/features/notification/repos/notification_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/enums/phone_auth_type.dart';
@@ -12,12 +13,15 @@ import 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
+  final NotificationRepository _notificationRepository;
 
   AuthCubit({
     required AuthRepository authRepository,
     required UserRepository userRepository,
+    required NotificationRepository notificationRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
+        _notificationRepository = notificationRepository,
         super(const AuthInitialState());
 
   UserModel? get currentUser {
@@ -51,6 +55,28 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  updateUserEmail() async {
+    final result = await _authRepository.getCurrentUser();
+    result.fold(
+      (failure) => emit(const UnauthenticatedState()),
+      (user) async {
+        if (user.email != null &&
+            currentUser != null &&
+            currentUser!.email != user.email) {
+          final updatedUser = currentUser!.copyWith(
+            email: user.email,
+          );
+          final result =
+              await _userRepository.updateUserToDatabase(updatedUser);
+          result.fold(
+            (failure) => emit(const UnauthenticatedState()),
+            (userModel) => emit(AuthenticatedState(user: userModel)),
+          );
+        }
+      },
+    );
+  }
+
   Future<void> register(String name, String email, String password) async {
     emit(const AuthLoadingState());
 
@@ -59,7 +85,7 @@ class AuthCubit extends Cubit<AuthState> {
       email: email,
       password: password,
     );
-
+    final token = await _notificationRepository.getToken();
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (user) async {
@@ -68,6 +94,7 @@ class AuthCubit extends Cubit<AuthState> {
           name: name,
           email: email,
           phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
+          fcmTokens: [token ?? AppStrings.emptyString],
         );
         final saveResult = await _userRepository.storeUserToDatabase(userModel);
         saveResult.fold(
@@ -107,12 +134,14 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (user) async {
+    final token = await _notificationRepository.getToken();
         final userModel = UserModel.newUser(
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
           phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
+          fcmTokens: [token ?? AppStrings.emptyString],
         );
         final fetchOrSaveResult =
             await _userRepository.fetchOrSaveUser(userModel);
@@ -132,12 +161,14 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (user) async {
+    final token = await _notificationRepository.getToken();
         final userModel = UserModel.newUser(
           id: user.uid,
           name: user.displayName ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
           phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
+          fcmTokens: [token ?? AppStrings.emptyString],
         );
         final fetchOrSaveResult =
             await _userRepository.fetchOrSaveUser(userModel);
@@ -164,6 +195,7 @@ class AuthCubit extends Cubit<AuthState> {
           (verificationId) =>
               emit(OtpSentState(verificationId: verificationId)),
           (user) async {
+    final token = await _notificationRepository.getToken();
             final userModel = UserModel.newUser(
               id: user.uid,
               name: user.displayName ??
@@ -172,6 +204,7 @@ class AuthCubit extends Cubit<AuthState> {
               email: user.email ?? AppStrings.emptyString,
               phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
               profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
+          fcmTokens: [token ?? AppStrings.emptyString],
             );
 
             final fetchOrSaveResult =
@@ -202,12 +235,14 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthErrorState(message: failure.message)),
       (user) async {
+    final token = await _notificationRepository.getToken();
         final userModel = UserModel.newUser(
           id: user.uid,
           name: user.displayName ?? user.phoneNumber ?? AppStrings.emptyString,
           email: user.email ?? AppStrings.emptyString,
           phoneNumber: user.phoneNumber ?? AppStrings.emptyString,
           profilePictureUrl: user.photoURL ?? AppStrings.emptyString,
+          fcmTokens: [token ?? AppStrings.emptyString],
         );
         final fetchOrSaveResult =
             await _userRepository.fetchOrSaveUser(userModel);
