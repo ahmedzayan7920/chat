@@ -20,7 +20,10 @@ extension TimeExtension on int {
 
 extension ChatModelExtensions on ChatModel {
   String getOtherUserId(String currentUserId) {
-    return members.firstWhere((id) => id != currentUserId);
+    return members.firstWhere(
+      (id) => id != currentUserId,
+      orElse: () => currentUserId,
+    );
   }
 }
 
