@@ -15,9 +15,9 @@ class ChatsItemSubtitle extends StatelessWidget {
       color: theme.colorScheme.primary,
     );
 
-    if (chat.type == MessageType.text) {
+    if (chat.lastMessageModel.type == MessageType.text) {
       return Text(
-        chat.lastMessage,
+        chat.lastMessageModel.lastMessage,
         style: subtitleTextStyle,
       );
     }
@@ -26,14 +26,14 @@ class ChatsItemSubtitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(
-          _getIconForMessageType(chat.type),
+          _getIconForMessageType(chat.lastMessageModel.type),
           color: theme.colorScheme.primary,
         ),
         const HorizontalSpace(width: 4),
         Text(
-          chat.lastMessage.isNotEmpty
-              ? chat.lastMessage
-              : chat.type.name.toUpperCase(),
+          chat.lastMessageModel.lastMessage.isNotEmpty
+              ? chat.lastMessageModel.lastMessage
+              : chat.lastMessageModel.type.name.toUpperCase(),
           style: subtitleTextStyle,
         ),
       ],

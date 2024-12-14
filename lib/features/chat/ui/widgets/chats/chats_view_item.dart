@@ -40,7 +40,7 @@ class ChatsViewItem extends StatelessWidget {
       ),
       subtitle: ChatsItemSubtitle(chat: chat),
       trailing: Text(
-        chat.lastMessageTime.formatIntTime(),
+        chat.lastMessageModel.lastMessageTime.formatIntTime(),
       ),
     );
   }
