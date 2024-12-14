@@ -61,7 +61,13 @@ class CustomDrawer extends StatelessWidget {
             CustomDrawerTile(
               title: "S E T T I N G S",
               icon: Icons.settings,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.settings,
+                );
+              },
             ),
             const Spacer(),
             BlocListener<AuthCubit, AuthState>(

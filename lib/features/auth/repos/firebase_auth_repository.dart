@@ -78,7 +78,7 @@ class FirebaseAuthRepository extends FirebasePhoneRepository
 
   @override
   Future<Either<Failure, User>> getCurrentUser() async {
-    final user = _authDataSource.getCurrentUser();
+    final user = await _authDataSource.getCurrentUser();
 
     if (user == null) {
       return Either.left(const Failure(AppStrings.userNotFound));

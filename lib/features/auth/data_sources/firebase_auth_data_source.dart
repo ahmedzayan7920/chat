@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:chat/core/data_sources/phone/firebase_phone_data_source.dart';
 import 'package:chat/core/utils/app_strings.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,7 +10,8 @@ import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
 import 'auth_data_source.dart';
 
-class FirebaseAuthDataSource extends FirebasePhoneDataSource implements AuthDataSource {
+class FirebaseAuthDataSource extends FirebasePhoneDataSource
+    implements AuthDataSource {
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
   final FacebookAuth _facebookAuth;
@@ -114,7 +114,8 @@ class FirebaseAuthDataSource extends FirebasePhoneDataSource implements AuthData
   }
 
   @override
-  User? getCurrentUser() {
-    return _auth.currentUser;
+  Future<User?> getCurrentUser() async {
+    _auth.currentUser?.reload();
+    return Future.value(_auth.currentUser);
   }
 }

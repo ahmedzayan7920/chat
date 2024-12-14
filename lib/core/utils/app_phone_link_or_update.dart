@@ -26,8 +26,13 @@ abstract class AppPhoneLinkOrUpdate {
   static Future<void> showPhoneBottomSheetForUpdate({
     required BuildContext context,
   }) async {
-    _hasShownSheet = true;
-    await _showBottomSheet(context, false);
+    final currentUser = getIt<FirebaseAuth>().currentUser;
+    if (((currentUser?.phoneNumber?.isNotEmpty ?? false) &&
+        context.mounted &&
+        !_hasShownSheet)) {
+      _hasShownSheet = true;
+      await _showBottomSheet(context, false);
+    }
   }
 
   static Future<void> _showBottomSheet(

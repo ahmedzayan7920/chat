@@ -15,7 +15,7 @@ class EditProfileImage extends StatelessWidget {
 
   _pickImage(BuildContext context) async {
     final pickedFile = await AppMediaPicker.pickMedia(isVideo: false);
-    if (pickedFile != null) {
+    if (pickedFile != null && context.mounted) {
       context.read<ProfileCubit>().setImageFile(File(pickedFile.path));
     }
   }

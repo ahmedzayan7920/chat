@@ -1,14 +1,14 @@
-import 'features/auth/logic/auth_cubit.dart';
-import 'features/notification/repos/notification_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/di/dependency_injection.dart';
 import 'core/themes/app_theme.dart';
 import 'core/utils/app_router.dart';
+import 'features/auth/logic/auth_cubit.dart';
 import 'features/auth/logic/auth_state.dart';
 import 'features/auth/ui/views/login_view.dart';
 import 'features/chat/ui/views/chats_view.dart';
+import 'features/notification/repos/notification_repository.dart';
 
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});
@@ -16,9 +16,11 @@ class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AuthCubit(authRepository: getIt(), userRepository: getIt())
-            ..checkAuthStatus(),
+      create: (context) => AuthCubit(
+        authRepository: getIt(),
+        userRepository: getIt(),
+        notificationRepository: getIt(),
+      )..checkAuthStatus(),
       child: MaterialApp(
         theme: AppTheme.lightTheme,
         onGenerateRoute: AppRouter.generateRoute,

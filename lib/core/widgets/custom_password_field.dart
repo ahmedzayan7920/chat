@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/utils/app_strings.dart';
-import '../../../../../core/utils/app_validator.dart';
-import '../../../../../core/widgets/custom_text_form_field.dart';
+import '../utils/app_strings.dart';
+import '../utils/app_validator.dart';
+import 'custom_text_form_field.dart';
 
-class RegisterPasswordField extends StatefulWidget {
-  const RegisterPasswordField({super.key, required this.controller});
+class CustomPasswordField extends StatefulWidget {
+  const CustomPasswordField({super.key, required this.controller});
   final TextEditingController controller;
 
   @override
-  State<RegisterPasswordField> createState() => _RegisterPasswordFieldState();
+  State<CustomPasswordField> createState() => _CustomPasswordFieldState();
 }
 
-class _RegisterPasswordFieldState extends State<RegisterPasswordField> {
+class _CustomPasswordFieldState extends State<CustomPasswordField> {
   bool _obscureText = true;
   @override
   Widget build(BuildContext context) {

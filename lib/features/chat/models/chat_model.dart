@@ -6,9 +6,11 @@ import '../../../core/utils/app_strings.dart';
 abstract class ChatModelKeys {
   static const id = 'id';
   static const members = 'members';
+  static const lastMessageModel = 'lastMessageModel';
   static const lastMessage = 'lastMessage';
   static const lastMessageTime = 'lastMessageTime';
   static const type = 'type';
+  static const isSeen = 'isSeen';
 }
 
 class ChatModel {
@@ -16,18 +18,14 @@ class ChatModel {
   final List<String> members;
   final String? userName;
   final String? userProfilePictureUrl;
-  final String lastMessage;
-  final int lastMessageTime;
-  final MessageType type;
+  final LastMessageModel lastMessageModel;
 
   ChatModel({
     required this.id,
     required this.members,
     this.userName,
     this.userProfilePictureUrl,
-    required this.lastMessage,
-    required this.lastMessageTime,
-    required this.type,
+    required this.lastMessageModel,
   });
 
   ChatModel copyWith({
@@ -35,9 +33,7 @@ class ChatModel {
     List<String>? members,
     String? userName,
     String? userProfilePictureUrl,
-    String? lastMessage,
-    int? lastMessageTime,
-    MessageType? type,
+    LastMessageModel? lastMessageModel,
   }) {
     return ChatModel(
       id: id ?? this.id,
@@ -45,9 +41,7 @@ class ChatModel {
       userName: userName ?? this.userName,
       userProfilePictureUrl:
           userProfilePictureUrl ?? this.userProfilePictureUrl,
-      lastMessage: lastMessage ?? this.lastMessage,
-      lastMessageTime: lastMessageTime ?? this.lastMessageTime,
-      type: type ?? this.type,
+      lastMessageModel: lastMessageModel ?? this.lastMessageModel,
     );
   }
 
@@ -55,9 +49,7 @@ class ChatModel {
     return <String, dynamic>{
       ChatModelKeys.id: id,
       ChatModelKeys.members: members,
-      ChatModelKeys.lastMessage: lastMessage,
-      ChatModelKeys.lastMessageTime: lastMessageTime,
-      ChatModelKeys.type: type.name,
+      ChatModelKeys.lastMessageModel: lastMessageModel.toJson(),
     };
   }
 
@@ -68,17 +60,13 @@ class ChatModel {
               ?.map<String>((e) => e.toString())
               .toList() ??
           [],
-      lastMessage: map[ChatModelKeys.lastMessage] ?? AppStrings.emptyString,
-      lastMessageTime: map[ChatModelKeys.lastMessageTime] ?? 0,
-      type: MessageType.values.firstWhere(
-        (e) => e.name == map[ChatModelKeys.type],
-        orElse: () => MessageType.text,
-      ),
+      lastMessageModel:
+          LastMessageModel.fromJson(map[ChatModelKeys.lastMessageModel]),
     );
   }
   @override
   String toString() {
-    return 'ChatModel(id: $id, members: $members, userName: $userName, userProfilePictureUrl: $userProfilePictureUrl, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, type: $type)';
+    return 'ChatModel(id: $id, members: $members, userName: $userName, userProfilePictureUrl: $userProfilePictureUrl, lastMessageModel: $lastMessageModel)';
   }
 
   @override
@@ -89,9 +77,7 @@ class ChatModel {
         listEquals(other.members, members) &&
         other.userName == userName &&
         other.userProfilePictureUrl == userProfilePictureUrl &&
-        other.lastMessage == lastMessage &&
-        other.lastMessageTime == lastMessageTime&&
-        other.type == type;
+        other.lastMessageModel == lastMessageModel;
   }
 
   @override
@@ -100,8 +86,77 @@ class ChatModel {
         members.hashCode ^
         userName.hashCode ^
         userProfilePictureUrl.hashCode ^
-        lastMessage.hashCode ^
-        lastMessageTime.hashCode^
-        type.hashCode;
+        lastMessageModel.hashCode;
+  }
+}
+
+class LastMessageModel {
+  final String lastMessage;
+  final int lastMessageTime;
+  final MessageType type;
+  final bool isSeen;
+
+  LastMessageModel({
+    required this.lastMessage,
+    required this.lastMessageTime,
+    required this.type,
+    required this.isSeen,
+  });
+
+  LastMessageModel copyWith({
+    String? lastMessage,
+    int? lastMessageTime,
+    MessageType? type,
+    bool? isSeen,
+  }) {
+    return LastMessageModel(
+      lastMessage: lastMessage ?? this.lastMessage,
+      lastMessageTime: lastMessageTime ?? this.lastMessageTime,
+      type: type ?? this.type,
+      isSeen: isSeen ?? this.isSeen,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      ChatModelKeys.lastMessage: lastMessage,
+      ChatModelKeys.lastMessageTime: lastMessageTime,
+      ChatModelKeys.type: type.name,
+      ChatModelKeys.isSeen: isSeen,
+    };
+  }
+
+  factory LastMessageModel.fromJson(Map<String, dynamic> map) {
+    return LastMessageModel(
+      lastMessage: map[ChatModelKeys.lastMessage] ?? AppStrings.emptyString,
+      lastMessageTime: map[ChatModelKeys.lastMessageTime] ?? 0,
+      type: MessageType.values.firstWhere(
+        (e) => e.name == map[ChatModelKeys.type],
+        orElse: () => MessageType.text,
+      ),
+      isSeen: map[ChatModelKeys.isSeen] ?? false,
+    );
+  }
+  @override
+  String toString() {
+    return 'LastMessageModel(lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, type: $type, isSeen: $isSeen)';
+  }
+
+  @override
+  bool operator ==(covariant LastMessageModel other) {
+    if (identical(this, other)) return true;
+
+    return other.lastMessage == lastMessage &&
+        other.lastMessageTime == lastMessageTime &&
+        other.type == type &&
+        other.isSeen == isSeen;
+  }
+
+  @override
+  int get hashCode {
+    return lastMessage.hashCode ^
+        lastMessageTime.hashCode ^
+        type.hashCode ^
+        isSeen.hashCode;
   }
 }
