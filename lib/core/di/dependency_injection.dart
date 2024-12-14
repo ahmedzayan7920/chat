@@ -1,5 +1,7 @@
 import 'package:chat/core/data_sources/phone/phone_data_source.dart';
 import 'package:chat/core/repos/phone/phone_repository.dart';
+import 'package:chat/features/settings/data_sources/email_settings_data_source.dart';
+import 'package:chat/features/settings/repos/email_settings_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,6 +27,8 @@ import '../../features/notification/data_sources/firebase_notification_data_sour
 import '../../features/notification/data_sources/local_notification_data_source.dart';
 import '../../features/notification/repos/firebase_notification_repository.dart';
 import '../../features/notification/repos/notification_repository.dart';
+import '../../features/settings/data_sources/firebase_email_settings_data_source.dart';
+import '../../features/settings/repos/firebase_email_settings_repository.dart';
 import '../data_sources/phone/firebase_phone_data_source.dart';
 import '../data_sources/storage/storage_data_source.dart';
 import '../data_sources/storage/supabase_storage_data_source.dart';
@@ -116,6 +120,12 @@ void setupDependencyInjection() {
     ),
   );
 
+  getIt.registerLazySingleton<EmailSettingsDataSource>(
+    () => FirebaseEmailSettingsDataSource(
+      auth: getIt(),
+    ),
+  );
+
   // Register repositories
   getIt.registerLazySingleton<AuthRepository>(
     () => FirebaseAuthRepository(
@@ -160,6 +170,12 @@ void setupDependencyInjection() {
   getIt.registerLazySingleton<StorageRepository>(
     () => SupabaseStorageRepository(
       storageDataSource: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<EmailSettingsRepository>(
+    () => FirebaseEmailSettingsRepository(
+      emailSettingsDataSource: getIt(),
     ),
   );
 }
