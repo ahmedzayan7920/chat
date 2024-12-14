@@ -30,9 +30,12 @@ class UsersViewItem extends StatelessWidget {
           members: members,
           userName: user.name,
           userProfilePictureUrl: user.profilePictureUrl,
-          lastMessage: '',
-          lastMessageTime: 0,
-          type: MessageType.text,
+          lastMessageModel: LastMessageModel(
+            lastMessage: '',
+            lastMessageTime: 0,
+            type: MessageType.text,
+            isSeen: false,
+          ),
         );
         Navigator.of(context).pushReplacementNamed(
           AppRoutes.chat,
@@ -51,8 +54,7 @@ class UsersViewItem extends StatelessWidget {
         ),
       ),
       title: Text(user.name),
-      subtitle: Text(user.email.isEmpty ? 'Phone Number' : user.email),
-      ///TODO: Change to phone number
+      subtitle: Text(user.email.isEmpty ? user.phoneNumber : user.email),
     );
   }
 }
