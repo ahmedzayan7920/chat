@@ -1,5 +1,6 @@
 import 'package:chat/features/profile/ui/views/edit_profile_view.dart';
 import 'package:chat/features/profile/ui/views/profile_view.dart';
+import 'package:chat/features/settings/ui/views/email_settings_view.dart';
 import 'package:chat/features/settings/ui/views/security_settings_view.dart';
 import 'package:chat/features/settings/ui/views/settings_view.dart';
 import 'package:flutter/material.dart';
@@ -21,22 +22,31 @@ class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.login:
-        return MaterialPageRoute(builder: (_) => const LoginView());
+        return MaterialPageRoute(
+          builder: (_) => const LoginView(),
+          settings: RouteSettings(name: AppRoutes.login),
+        );
       case AppRoutes.register:
-        return MaterialPageRoute(builder: (_) => const RegisterView());
+        return MaterialPageRoute(builder: (_) => const RegisterView(),
+          settings: RouteSettings(name: AppRoutes.register),);
       case AppRoutes.phoneAuth:
-        return MaterialPageRoute(builder: (_) => const PhoneAuthView());
+        return MaterialPageRoute(builder: (_) => const PhoneAuthView(),
+          settings: RouteSettings(name: AppRoutes.phoneAuth),);
       case AppRoutes.phoneOtp:
         final verificationId = settings.arguments as String;
         return MaterialPageRoute(
-            builder: (_) => PhoneOtpView(verificationId: verificationId));
+            builder: (_) => PhoneOtpView(verificationId: verificationId),
+          settings: RouteSettings(name: AppRoutes.phoneOtp),);
       case AppRoutes.chats:
-        return MaterialPageRoute(builder: (_) => const ChatsView());
+        return MaterialPageRoute(builder: (_) => const ChatsView(),
+          settings: RouteSettings(name: AppRoutes.chats),);
       case AppRoutes.users:
-        return MaterialPageRoute(builder: (_) => const UsersView());
+        return MaterialPageRoute(builder: (_) => const UsersView(),
+          settings: RouteSettings(name: AppRoutes.users),);
       case AppRoutes.chat:
         final chat = settings.arguments as ChatModel;
-        return MaterialPageRoute(builder: (_) => ChatView(chat: chat));
+        return MaterialPageRoute(builder: (_) => ChatView(chat: chat),
+          settings: RouteSettings(name: AppRoutes.chat),);
       case AppRoutes.editMedia:
         final args = settings.arguments as EditMediaArgumentsModel;
         return MaterialPageRoute(
@@ -45,6 +55,7 @@ class AppRouter {
             isVideo: args.isVideo,
             onSend: args.onSend,
           ),
+          settings: RouteSettings(name: AppRoutes.editMedia),
         );
 
       case AppRoutes.videoPlayer:
@@ -53,6 +64,7 @@ class AppRouter {
           builder: (_) => VideoPlayerView(
             videoUrl: videoUrl,
           ),
+          settings: RouteSettings(name: AppRoutes.videoPlayer),
         );
 
       case AppRoutes.profile:
@@ -61,19 +73,29 @@ class AppRouter {
           builder: (_) => ProfileView(
             id: id,
           ),
+          settings: RouteSettings(name: AppRoutes.profile),
         );
 
       case AppRoutes.editProfile:
         return MaterialPageRoute(
           builder: (_) => EditProfileView(),
+          settings: RouteSettings(name: AppRoutes.editProfile),
         );
       case AppRoutes.settings:
         return MaterialPageRoute(
           builder: (_) => SettingsView(),
+          settings: RouteSettings(name: AppRoutes.settings),
         );
       case AppRoutes.securitySettings:
         return MaterialPageRoute(
           builder: (_) => SecuritySettingsView(),
+          settings: RouteSettings(name: AppRoutes.securitySettings),
+        );
+      case AppRoutes.emailSettings:
+        final email = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => EmailSettingsView(email: email),
+          settings: RouteSettings(name: AppRoutes.emailSettings),
         );
       default:
         return MaterialPageRoute(
@@ -84,6 +106,7 @@ class AppRouter {
               ),
             ),
           ),
+          settings: RouteSettings(name: settings.name),
         );
     }
   }

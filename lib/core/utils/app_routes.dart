@@ -12,4 +12,5 @@ abstract class AppRoutes {
   static const String editProfile = '/editProfile';
   static const String settings = '/settings';
   static const String securitySettings = '/securitySettings';
+  static const String emailSettings = '/emailSettings';
 }

@@ -3,6 +3,7 @@ import 'package:chat/core/utils/app_phone_link_or_update.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/app_routes.dart';
 import '../../../auth/logic/auth_cubit.dart';
 
 class SecuritySettingsView extends StatelessWidget {
@@ -18,9 +19,19 @@ class SecuritySettingsView extends StatelessWidget {
       body: Column(
         children: [
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.emailSettings,
+                arguments: currentUser.email,
+              );
+            },
             leading: Icon(Icons.email_outlined),
-            title: Text(currentUser.email),
+            title: Text(
+              currentUser.email.isNotEmpty
+                  ? currentUser.email
+                  : "Add Email Address",
+            ),
           ),
           ListTile(
             onTap: () {
