@@ -32,14 +32,14 @@ class FirebaseNotificationRepository implements NotificationRepository {
 
     _tokenRefreshSubscription =
         _firebaseDataSource.onTokenRefresh().listen((token) async {
-      final user = _authDataSource.getCurrentUser();
+      final user = await _authDataSource.getCurrentUser();
       if (user != null && token != null) {
         await _firebaseDataSource.saveToken(token, user.uid);
       }
     });
 
-    _messageSubscription = _firebaseDataSource.onMessage().listen((message) {
-      final user = _authDataSource.getCurrentUser();
+    _messageSubscription = _firebaseDataSource.onMessage().listen((message)async {
+      final user = await _authDataSource.getCurrentUser();
       if (user != null && message?.notification != null) {
         _localDataSource.showNotification(
           title: message!.notification!.title ?? AppStrings.noTitle,
@@ -54,7 +54,7 @@ class FirebaseNotificationRepository implements NotificationRepository {
 
   @override
   Future<void> saveToken(String? token) async {
-    final user = _authDataSource.getCurrentUser();
+    final user = await _authDataSource.getCurrentUser();
     if (user != null && token != null) {
       await _firebaseDataSource.saveToken(token, user.uid);
     }
