@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat/core/widgets/custom_circle_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/app_strings.dart';
@@ -17,15 +17,9 @@ class ChatAppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: chat.userProfilePictureUrl ?? AppStrings.emptyString,
-            width: 40,
-            height: 40,
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.person_outline),
-          ),
+        CustomCircleNetworkImage(
+          imageUrl: chat.userProfilePictureUrl,
+          radius: 20,
         ),
         const HorizontalSpace(width: 10),
         Text(chat.userName ?? AppStrings.emptyString),
