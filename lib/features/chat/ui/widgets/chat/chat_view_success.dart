@@ -44,7 +44,9 @@ class _ChatViewSuccessState extends State<ChatViewSuccess> {
       setState(() {
         groupedMessages = _groupMessagesByDate(widget.messages);
       });
-      if (widget.messages.length > oldWidget.messages.length &&
+      if (widget.messages.isNotEmpty &&
+          oldWidget.messages.isNotEmpty &&
+          widget.messages.length > oldWidget.messages.length &&
           widget.messages.first.time != oldWidget.messages.first.time &&
           widget.isLoading == false) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -132,8 +134,10 @@ class _ChatViewSuccessState extends State<ChatViewSuccess> {
       }
     }
 
-    groupedMessages
-        .add(DateTime.fromMillisecondsSinceEpoch(messages.last.time).toLocal());
+    if (messages.isNotEmpty) {
+      groupedMessages.add(
+          DateTime.fromMillisecondsSinceEpoch(messages.last.time).toLocal());
+    }
     return groupedMessages;
   }
 }
