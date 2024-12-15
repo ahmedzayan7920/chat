@@ -5,8 +5,10 @@ import '../models/message_model.dart';
 
 abstract class ChatDataSource {
   Stream<Either<Failure, List<MessageModel>>> fetchMessages({
-    required String chatId,
-  });
+  required String chatId,
+  int? limit,
+  MessageModel? lastMessage,
+});
 
   Future<Either<Failure, Unit>> sendMessage({
     required String currentUserId,
