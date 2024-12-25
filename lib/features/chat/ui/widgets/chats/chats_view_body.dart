@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/utils/app_strings.dart';
+import '../../../../auth/logic/auth_cubit.dart';
 import '../../../logic/chats/chats_cubit.dart';
 import '../../../logic/chats/chats_state.dart';
+import 'chats_view_error.dart';
 import 'chats_view_success.dart';
 
 class ChatsViewBody extends StatelessWidget {
@@ -13,21 +14,29 @@ class ChatsViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ChatsCubit, ChatsState>(
       builder: (context, state) {
-        if (state is ChatsLoadedState) {
-          if (state.chats.isEmpty) {
-            return const Center(
-              child: Text(AppStrings.noChats),
-            );
-          }
-          return ChatsViewSuccess(chats: state.chats);
-        } else if (state is ChatsErrorState) {
-          return Center(
-            child: Text(state.message),
-          );
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        final currentUserId = (context.read<AuthCubit>().currentUser!.id);
+        return switch (state) {
+          ChatsErrorState() => ChatsViewError(
+              currentUserId: currentUserId,
+              state: state,
+            ),
+          ChatsLoadingState(isLoadingMore: false) =>
+            const Center(child: CircularProgressIndicator()),
+          ChatsLoadingState(isLoadingMore: true) => ChatsViewSuccess(
+              chats: state.currentChats,
+              currentUserId: currentUserId,
+              hasMore: true,
+              isLoading: true,
+            ),
+          ChatsLoadedState() => ChatsViewSuccess(
+              chats: state.chats,
+              currentUserId: currentUserId,
+              hasMore: state.hasMore,
+              isLoading: false,
+            ),
+          ChatsInitialState() =>
+            const Center(child: CircularProgressIndicator()),
+        };
       },
     );
   }

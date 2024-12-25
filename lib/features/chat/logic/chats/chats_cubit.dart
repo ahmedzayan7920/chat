@@ -10,28 +10,116 @@ import 'chats_state.dart';
 
 class ChatsCubit extends Cubit<ChatsState> {
   final ChatsRepository _chatsRepository;
-  StreamSubscription<Either<Failure, List<ChatModel>>>? _chatStreamSubscription;
 
   ChatsCubit({required ChatsRepository chatsRepository})
       : _chatsRepository = chatsRepository,
         super(const ChatsInitialState());
 
-  void fetchChats(String currentUserId) {
-    emit(const ChatsLoadingState());
+  static const int _pageSize = 20;
 
-    _chatStreamSubscription = _chatsRepository
-        .fetchChats(currentUserId: currentUserId)
-        .listen((result) {
-      result.fold(
-        (failure) => emit(ChatsErrorState(failure.message)),
-        (chats) => emit(ChatsLoadedState(chats)),
-      );
-    });
+  StreamSubscription<Either<Failure, List<ChatModel>>>? _chatsSubscription;
+
+  List<ChatModel> _getCurrentChats() {
+    return switch (state) {
+      ChatsLoadedState(chats: final chats) => chats,
+      ChatsLoadingState(currentChats: final chats) => chats,
+      ChatsErrorState(currentChats: final chats) => chats,
+      ChatsInitialState() => const <ChatModel>[],
+    };
+  }
+
+  bool _getHasMore() {
+    return switch (state) {
+      ChatsLoadedState(hasMore: final hasMore) => hasMore,
+      ChatsLoadingState(currentChats: final chats) => chats.length >= _pageSize,
+      ChatsErrorState(currentChats: final chats) => chats.length >= _pageSize,
+      ChatsInitialState() => true,
+    };
+  }
+
+  void fetchChats({required String currentUserId}) {
+    emit(const ChatsLoadingState());
+    _chatsSubscription?.cancel();
+
+    _chatsSubscription = _chatsRepository
+        .fetchChats(
+      currentUserId: currentUserId,
+      limit: _pageSize,
+    )
+        .listen(
+      (result) {
+        result.fold(
+          (failure) {
+            emit(
+              ChatsErrorState(
+                message: failure.message,
+                currentChats: _getCurrentChats(),
+              ),
+            );
+          },
+          (newChats) {
+            final currentChats = _getCurrentChats();
+            final mergedChats = {
+              ...newChats,
+              ...currentChats,
+            }.toList();
+            final hasMore = currentChats.isNotEmpty
+                ? _getHasMore()
+                : newChats.length >= _pageSize;
+
+            emit(ChatsLoadedState(
+              chats: mergedChats,
+              hasMore: hasMore,
+            ));
+          },
+        );
+      },
+    );
+  }
+
+  void loadMoreChats({required String currentUserId}) {
+    if (!_getHasMore()) return;
+    final currentChats = _getCurrentChats();
+    final lastChat = currentChats.isNotEmpty ? currentChats.last : null;
+
+    emit(ChatsLoadingState(
+      currentChats: currentChats,
+      isLoadingMore: true,
+    ));
+
+    _chatsRepository
+        .fetchChats(
+      currentUserId: currentUserId,
+      limit: _pageSize,
+      lastChat: lastChat,
+    )
+        .listen(
+      (result) {
+        result.fold(
+          (failure) {
+            emit(ChatsErrorState(
+              message: failure.message,
+              currentChats: currentChats,
+            ));
+          },
+          (newChats) {
+            final updatedChats = [
+              ...currentChats,
+              ...newChats,
+            ];
+            emit(ChatsLoadedState(
+              chats: updatedChats,
+              hasMore: newChats.length >= _pageSize,
+            ));
+          },
+        );
+      },
+    );
   }
 
   @override
   Future<void> close() {
-    _chatStreamSubscription?.cancel();
+    _chatsSubscription?.cancel();
     return super.close();
   }
 }

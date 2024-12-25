@@ -35,7 +35,8 @@ class _ChatsViewState extends State<ChatsView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ChatsCubit(chatsRepository: getIt())
-        ..fetchChats((context.read<AuthCubit>().currentUser!.id)),
+        ..fetchChats(
+            currentUserId: (context.read<AuthCubit>().currentUser!.id)),
       child: Scaffold(
         appBar: AppBar(
           title: const Text(AppStrings.chats),
