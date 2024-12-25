@@ -5,6 +5,8 @@ import '../models/chat_model.dart';
 
 abstract class ChatsDataSource {
   Stream<Either<Failure, List<ChatModel>>> fetchChats({
-  required String currentUserId,
-});
+    required String currentUserId,
+    int? limit,
+    ChatModel? lastChat,
+  });
 }
