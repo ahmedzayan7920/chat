@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import '../../../../../core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/extensions/extensions.dart';
 import '../../../../../core/utils/app_routes.dart';
 import '../../../../../core/utils/app_strings.dart';
+import '../../../../../core/widgets/custom_circle_network_image.dart';
 import '../../../models/chat_model.dart';
 import 'chats_item_subtitle.dart';
 
@@ -25,14 +25,9 @@ class ChatsViewItem extends StatelessWidget {
         );
       },
       minLeadingWidth: 50,
-      leading: ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: chat.userProfilePictureUrl ?? AppStrings.emptyString,
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
-          errorWidget: (context, url, error) => const Icon(Icons.person_outline),
-        ),
+      leading: CustomCircleNetworkImage(
+        imageUrl: chat.userProfilePictureUrl,
+        radius: 25,
       ),
       title: Text(
         chat.userName ?? AppStrings.emptyString,
@@ -45,4 +40,3 @@ class ChatsViewItem extends StatelessWidget {
     );
   }
 }
-

@@ -25,10 +25,17 @@ class MessageImageItem extends StatelessWidget {
     final bool isMyMessage =
         message.senderId == context.read<AuthCubit>().currentUser!.id;
 
+    final isRemoteUrl = Uri.tryParse(message.mediaUrl ?? AppStrings.emptyString)
+            ?.hasAbsolutePath ??
+        false;
+
+    final isLocalFile =
+        File(message.mediaUrl ?? AppStrings.emptyString).existsSync();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (message.mediaUrl?.contains('http') ?? false)
+        if (isRemoteUrl)
           CachedNetworkImage(
             imageUrl: message.mediaUrl!,
             width: size,
@@ -37,7 +44,7 @@ class MessageImageItem extends StatelessWidget {
             errorWidget: (context, url, error) =>
                 _ImageError(AppStrings.imageNotFound),
           )
-        else
+        else if (isLocalFile)
           Image.file(
             File(message.mediaUrl!),
             width: size,
@@ -45,7 +52,9 @@ class MessageImageItem extends StatelessWidget {
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) =>
                 _ImageError(AppStrings.failedToLoadImage),
-          ),
+          )
+        else
+          _ImageError(AppStrings.failedToLoadImage),
         if (message.message.isNotEmpty) ...[
           const VerticalSpace(height: 4),
           MessageTextItem(

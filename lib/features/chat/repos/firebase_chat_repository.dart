@@ -21,8 +21,14 @@ class FirebaseChatRepository implements ChatRepository {
   @override
   Stream<Either<Failure, List<MessageModel>>> fetchMessages({
     required String chatId,
+    int? limit,
+    MessageModel? lastMessage,
   }) async* {
-    yield* _chatDataSource.fetchMessages(chatId: chatId);
+    yield* _chatDataSource.fetchMessages(
+      chatId: chatId,
+      limit: limit,
+      lastMessage: lastMessage,
+    );
   }
 
   @override

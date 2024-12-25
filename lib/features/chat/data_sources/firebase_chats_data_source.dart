@@ -17,13 +17,26 @@ class FirebaseChatsDataSource implements ChatsDataSource {
   @override
   Stream<Either<Failure, List<ChatModel>>> fetchChats({
     required String currentUserId,
+    int? limit,
+    ChatModel? lastChat,
   }) async* {
     try {
-      final chatStream = _firestore
+      var query = _firestore
           .collection(FirebaseConstants.chats)
           .where(ChatModelKeys.members, arrayContains: currentUserId)
-            .orderBy('${ChatModelKeys.lastMessageModel}.${ChatModelKeys.lastMessageTime}', descending: true)
-          .snapshots();
+          .orderBy(
+              '${ChatModelKeys.lastMessageModel}.${ChatModelKeys.lastMessageTime}',
+              descending: true);
+
+      if (limit != null) {
+        query = query.limit(limit);
+      }
+
+      if (lastChat != null) {
+        query = query.startAfter([lastChat.lastMessageModel.lastMessageTime]);
+      }
+
+      final chatStream = query.snapshots();
 
       await for (final snapshot in chatStream) {
         if (snapshot.docs.isEmpty) {

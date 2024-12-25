@@ -9,17 +9,24 @@ class ChatsInitialState extends ChatsState {
 }
 
 class ChatsLoadingState extends ChatsState {
-  const ChatsLoadingState();
+  final List<ChatModel> currentChats;
+  final bool isLoadingMore;
+  const ChatsLoadingState({
+    this.currentChats = const [],
+    this.isLoadingMore = false,
+  });
 }
 
 class ChatsLoadedState extends ChatsState {
   final List<ChatModel> chats;
+  final bool hasMore;
 
-  const ChatsLoadedState(this.chats);
+  const ChatsLoadedState({required this.chats, this.hasMore = true});
 }
 
 class ChatsErrorState extends ChatsState {
   final String message;
+  final List<ChatModel> currentChats;
 
-  const ChatsErrorState(this.message);
+  const ChatsErrorState({required this.message, this.currentChats = const []});
 }

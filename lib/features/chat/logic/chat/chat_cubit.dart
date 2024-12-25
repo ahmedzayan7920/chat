@@ -12,6 +12,7 @@ import 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository _chatRepository;
+  static const int _pageSize = 20;
 
   StreamSubscription<Either<Failure, List<MessageModel>>>?
       _messagesSubscription;
@@ -20,20 +21,101 @@ class ChatCubit extends Cubit<ChatState> {
       : _chatRepository = chatRepository,
         super(const ChatInitialState());
 
+  
+  List<MessageModel> _getCurrentMessages() {
+    return switch (state) {
+      ChatLoadedState(messages: final msgs) => msgs,
+      ChatLoadingState(currentMessages: final msgs) => msgs,
+      ChatErrorState(currentMessages: final msgs) => msgs,
+      ChatInitialState() => const <MessageModel>[],
+    };
+  }
+
+  
+  bool _getHasMore() {
+    return switch (state) {
+      ChatLoadedState(hasMore: final hasMore) => hasMore,
+      ChatLoadingState(currentMessages: final msgs) => msgs.length >= _pageSize,
+      ChatErrorState(currentMessages: final msgs) => msgs.length >= _pageSize,
+      ChatInitialState() => true,
+    };
+  }
+
   void fetchMessages({required String chatId}) {
     emit(const ChatLoadingState());
-
     _messagesSubscription?.cancel();
 
-    _messagesSubscription =
-        _chatRepository.fetchMessages(chatId: chatId).listen(
+    _messagesSubscription = _chatRepository
+        .fetchMessages(
+      chatId: chatId,
+      limit: _pageSize,
+    )
+        .listen(
       (result) {
         result.fold(
           (failure) {
-            emit(ChatErrorState(failure.message));
+            emit(
+              ChatErrorState(
+                failure.message,
+                currentMessages: _getCurrentMessages(),
+              ),
+            );
           },
-          (messages) {
-            emit(ChatLoadedState(messages));
+          (newMessages) {
+            final currentMessages = _getCurrentMessages();
+            final mergedMessages = {
+              ...newMessages,
+              ...currentMessages,
+            }.toList();
+            final hasMore = currentMessages.isNotEmpty
+                ? _getHasMore()
+                : newMessages.length >= _pageSize;
+
+            emit(ChatLoadedState(
+              mergedMessages,
+              hasMore: hasMore,
+            ));
+          },
+        );
+      },
+    );
+  }
+
+  void loadMoreMessages({required String chatId}) {
+    if (!_getHasMore()) return;
+    final currentMessages = _getCurrentMessages();
+    final lastMessage =
+        currentMessages.isNotEmpty ? currentMessages.last : null;
+
+    emit(ChatLoadingState(
+      currentMessages: currentMessages,
+      isLoadingMore: true,
+    ));
+
+    _chatRepository
+        .fetchMessages(
+      chatId: chatId,
+      limit: _pageSize,
+      lastMessage: lastMessage,
+    )
+        .listen(
+      (result) {
+        result.fold(
+          (failure) {
+            emit(ChatErrorState(
+              failure.message,
+              currentMessages: currentMessages,
+            ));
+          },
+          (newMessages) {
+            final updatedMessages = [
+              ...currentMessages,
+              ...newMessages,
+            ];
+            emit(ChatLoadedState(
+              updatedMessages,
+              hasMore: newMessages.length >= _pageSize,
+            ));
           },
         );
       },
@@ -45,6 +127,9 @@ class ChatCubit extends Cubit<ChatState> {
     required String otherUserId,
     required String message,
   }) async {
+    if (state is! ChatLoadedState) return;
+    final currentState = state as ChatLoadedState;
+
     final messageModel = MessageModel(
       id: const Uuid().v4(),
       message: message,
@@ -52,8 +137,16 @@ class ChatCubit extends Cubit<ChatState> {
       time: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.text,
     );
-    final messages = (state as ChatLoadedState).messages;
-    emit(ChatLoadedState([...messages, messageModel]));
+
+    
+    emit(ChatLoadedState(
+      [
+        messageModel,
+        ...currentState.messages,
+      ],
+      hasMore: currentState.hasMore,
+    ));
+
     final result = await _chatRepository.sendTextMessage(
       currentUserId: currentUserId,
       otherUserId: otherUserId,
@@ -62,7 +155,8 @@ class ChatCubit extends Cubit<ChatState> {
 
     result.fold(
       (failure) {
-        emit(ChatErrorState(failure.message));
+        emit(ChatErrorState(failure.message,
+            currentMessages: currentState.messages));
       },
       (_) {},
     );
@@ -75,6 +169,9 @@ class ChatCubit extends Cubit<ChatState> {
     required String mediaPath,
     required MessageType type,
   }) async {
+    if (state is! ChatLoadedState) return;
+    final currentState = state as ChatLoadedState;
+
     final messageModel = MessageModel(
       id: const Uuid().v4(),
       message: message,
@@ -83,8 +180,16 @@ class ChatCubit extends Cubit<ChatState> {
       type: type,
       mediaUrl: mediaPath,
     );
-    final messages = (state as ChatLoadedState).messages;
-    emit(ChatLoadedState([...messages, messageModel]));
+
+    
+    emit(ChatLoadedState(
+      [
+        messageModel,
+        ...currentState.messages,
+      ],
+      hasMore: currentState.hasMore,
+    ));
+
     final result = await _chatRepository.sendMediaMessage(
       currentUserId: currentUserId,
       otherUserId: otherUserId,
@@ -93,7 +198,8 @@ class ChatCubit extends Cubit<ChatState> {
 
     result.fold(
       (failure) {
-        emit(ChatErrorState(failure.message));
+        emit(ChatErrorState(failure.message,
+            currentMessages: currentState.messages));
       },
       (_) {},
     );

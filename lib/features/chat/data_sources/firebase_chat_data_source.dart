@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../core/extensions/extensions.dart';
 import '../../../core/models/either.dart';
 import '../../../core/models/failure.dart';
 import '../../../core/utils/firebase_constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../models/chat_model.dart';
 import '../models/message_model.dart';
 import 'chat_data_source.dart';
@@ -17,20 +17,32 @@ class FirebaseChatDataSource implements ChatDataSource {
   @override
   Stream<Either<Failure, List<MessageModel>>> fetchMessages({
     required String chatId,
+    int? limit,
+    MessageModel? lastMessage,
   }) async* {
     try {
-      final messageStream = _firestore
+      var query = _firestore
           .collection(FirebaseConstants.chats)
           .doc(chatId)
           .collection(FirebaseConstants.messages)
-          .orderBy(MessageModelKeys.time, descending: false)
-          .snapshots();
+          .orderBy(
+            MessageModelKeys.time,
+            descending: true,
+          );
 
+      if (limit != null) {
+        query = query.limit(limit);
+      }
+
+      if (lastMessage != null) {
+        query = query.startAfter([lastMessage.time]);
+      }
+
+      final messageStream = query.snapshots();
       await for (final snapshot in messageStream) {
-        final messages = snapshot.docs.map((doc) {
-          return MessageModel.fromJson(doc.data());
-        }).toList();
-
+        final messages = snapshot.docs
+            .map((doc) => MessageModel.fromJson(doc.data()))
+            .toList();
         yield Either.right(messages);
       }
     } catch (e) {
