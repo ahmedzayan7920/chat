@@ -14,8 +14,10 @@ class FirebaseChatsRepository implements ChatsRepository {
 
   @override
 Stream<Either<Failure, List<ChatModel>>> fetchChats({
-  required String currentUserId,
-}) {
+    required String currentUserId,
+    int? limit,
+    ChatModel? lastChat,
+  }) {
   return _chatsDataSource.fetchChats(currentUserId: currentUserId);
 }
 }
