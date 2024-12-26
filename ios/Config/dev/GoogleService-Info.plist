@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>306952175147-td68ee2tfspssrl1f5ini70si5csqh60.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.306952175147-td68ee2tfspssrl1f5ini70si5csqh60</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>306952175147-l8puso4b1ukig0pkp9hem67vb1iq7s57.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAxbNAns3YhrgTGJ90Ed-PPA3sTlmuI9z0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>306952175147</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.training.chat</string>
+	<key>PROJECT_ID</key>
+	<string>zayan-training-chat</string>
+	<key>STORAGE_BUCKET</key>
+	<string>zayan-training-chat.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:306952175147:ios:36cee01db189a07ed4b46e</string>
+</dict>
+</plist>
