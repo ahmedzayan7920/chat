@@ -21,6 +21,7 @@ class ChatCubit extends Cubit<ChatState> {
       : _chatRepository = chatRepository,
         super(const ChatInitialState());
 
+
   
   List<MessageModel> _getCurrentMessages() {
     return switch (state) {
@@ -62,11 +63,16 @@ class ChatCubit extends Cubit<ChatState> {
             );
           },
           (newMessages) {
-            final currentMessages = _getCurrentMessages();
-            final mergedMessages = {
+            var currentMessages = List<MessageModel>.from(_getCurrentMessages());
+            currentMessages.removeWhere((message) {
+              return newMessages.any((e) {
+                return e.id == message.id;
+              });
+            });
+            final mergedMessages = [
               ...newMessages,
               ...currentMessages,
-            }.toList();
+            ];
             final hasMore = currentMessages.isNotEmpty
                 ? _getHasMore()
                 : newMessages.length >= _pageSize;
@@ -83,7 +89,7 @@ class ChatCubit extends Cubit<ChatState> {
 
   void loadMoreMessages({required String chatId}) {
     if (!_getHasMore()) return;
-    final currentMessages = _getCurrentMessages();
+    var currentMessages = List<MessageModel>.from(_getCurrentMessages());
     final lastMessage =
         currentMessages.isNotEmpty ? currentMessages.last : null;
 
@@ -108,6 +114,11 @@ class ChatCubit extends Cubit<ChatState> {
             ));
           },
           (newMessages) {
+            currentMessages.removeWhere((message) {
+              return newMessages.any((e) {
+                return e.id == message.id;
+              });
+            });
             final updatedMessages = [
               ...currentMessages,
               ...newMessages,
