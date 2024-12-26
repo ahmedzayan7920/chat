@@ -40,6 +40,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_dotenv: ^5.2.1
   flutter_facebook_auth: ^7.1.1
   flutter_intl_phone_field: ^0.0.4
   flutter_local_notifications: ^18.0.1
@@ -71,6 +72,8 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
+    - .env.dev
+    - .env.prod
     - assets/svgs/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

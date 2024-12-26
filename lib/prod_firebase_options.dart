@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-class DefaultFirebaseOptions {
+class ProdFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -50,22 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBBHEdH7FiLrSG470rvw-eZ88mQo8Pyzic',
-    appId: '1:306952175147:android:a5d73e0467f84a1fd4b46e',
-    messagingSenderId: '306952175147',
-    projectId: 'zayan-training-chat',
-    storageBucket: 'zayan-training-chat.firebasestorage.app',
+    apiKey: 'AIzaSyBTf62EhvhrmHDvoTM3r_TZYio75bM_B9g',
+    appId: '1:775971686082:android:6e93fc924d7c3765f75d5b',
+    messagingSenderId: '775971686082',
+    projectId: 'chat-prod-6fd07',
+    storageBucket: 'chat-prod-6fd07.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAxbNAns3YhrgTGJ90Ed-PPA3sTlmuI9z0',
-    appId: '1:306952175147:ios:8032aaa514922743d4b46e',
-    messagingSenderId: '306952175147',
-    projectId: 'zayan-training-chat',
-    storageBucket: 'zayan-training-chat.firebasestorage.app',
-    androidClientId: '306952175147-q3t2ae1osbk68j22b9rt6eg36iuandfv.apps.googleusercontent.com',
-    iosClientId: '306952175147-td68ee2tfspssrl1f5ini70si5csqh60.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDgf0Zk4ran925FTp3cyaNw60L8qES39L4',
+    appId: '1:775971686082:ios:7e51c0681a938248f75d5b',
+    messagingSenderId: '775971686082',
+    projectId: 'chat-prod-6fd07',
+    storageBucket: 'chat-prod-6fd07.firebasestorage.app',
     iosBundleId: 'com.training.chat',
   );
-
 }
