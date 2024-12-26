@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "306952175147",
+    "project_id": "zayan-training-chat",
+    "storage_bucket": "zayan-training-chat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306952175147:android:8739adfc79aba650d4b46e",
+        "android_client_info": {
+          "package_name": "com.training.chat.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306952175147-l8puso4b1ukig0pkp9hem67vb1iq7s57.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.training.chat.dev",
+            "certificate_hash": "76d3c5ed9cb69a87d8e808649dbcaab3b503f052"
+          }
+        },
+        {
+          "client_id": "306952175147-0uort3bbc66vdrrdtmqod19plcg421ae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBHEdH7FiLrSG470rvw-eZ88mQo8Pyzic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306952175147-0uort3bbc66vdrrdtmqod19plcg421ae.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "306952175147-td68ee2tfspssrl1f5ini70si5csqh60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.training.chat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

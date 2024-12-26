@@ -3,7 +3,9 @@ import 'package:chat/core/repos/phone/phone_repository.dart';
 import 'package:chat/features/settings/data_sources/email_settings_data_source.dart';
 import 'package:chat/features/settings/repos/email_settings_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,6 +13,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../app_config.dart';
 import '../../features/auth/data_sources/auth_data_source.dart';
 import '../../features/auth/data_sources/firebase_auth_data_source.dart';
 import '../../features/auth/repos/auth_repository.dart';
@@ -42,7 +45,7 @@ import '../repos/user/user_repository.dart';
 
 final getIt = GetIt.instance;
 
-void setupDependencyInjection() {
+setupDependencyInjection({required AppFlavor flavor}) {
   // Register services
   getIt.registerLazySingleton<FirebaseMessaging>(
     () => FirebaseMessaging.instance,
@@ -70,6 +73,18 @@ void setupDependencyInjection() {
 
   getIt.registerLazySingleton<SupabaseClient>(
     () => Supabase.instance.client,
+  );
+
+  getIt.registerLazySingleton<AppConfig>(
+    () => AppConfig(appFlavor: flavor),
+  );
+
+  getIt.registerLazySingleton<FirebaseCrashlytics>(
+    () => FirebaseCrashlytics.instance,
+  );
+
+  getIt.registerLazySingleton<FirebaseAnalytics>(
+    () => FirebaseAnalytics.instance,
   );
 
   // Register data sources
