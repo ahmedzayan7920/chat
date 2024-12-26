@@ -58,11 +58,16 @@ class ChatsCubit extends Cubit<ChatsState> {
             );
           },
           (newChats) {
-            final currentChats = _getCurrentChats();
-            final mergedChats = {
+            var currentChats = List<ChatModel>.from(_getCurrentChats());
+            currentChats.removeWhere((chat) {
+              return newChats.any((e) {
+                return e.id == chat.id;
+              });
+            });
+            final mergedChats = [
               ...newChats,
               ...currentChats,
-            }.toList();
+            ];
             final hasMore = currentChats.isNotEmpty
                 ? _getHasMore()
                 : newChats.length >= _pageSize;
@@ -79,7 +84,7 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   void loadMoreChats({required String currentUserId}) {
     if (!_getHasMore()) return;
-    final currentChats = _getCurrentChats();
+    var currentChats = List<ChatModel>.from(_getCurrentChats());
     final lastChat = currentChats.isNotEmpty ? currentChats.last : null;
 
     emit(ChatsLoadingState(
@@ -103,6 +108,11 @@ class ChatsCubit extends Cubit<ChatsState> {
             ));
           },
           (newChats) {
+            currentChats.removeWhere((chat) {
+              return newChats.any((e) {
+                return e.id == chat.id;
+              });
+            });
             final updatedChats = [
               ...currentChats,
               ...newChats,

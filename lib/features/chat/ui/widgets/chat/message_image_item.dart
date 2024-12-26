@@ -25,9 +25,11 @@ class MessageImageItem extends StatelessWidget {
     final bool isMyMessage =
         message.senderId == context.read<AuthCubit>().currentUser!.id;
 
-    final isRemoteUrl = Uri.tryParse(message.mediaUrl ?? AppStrings.emptyString)
-            ?.hasAbsolutePath ??
-        false;
+    final isRemoteUrl =
+        (Uri.tryParse(message.mediaUrl ?? AppStrings.emptyString)
+                    ?.hasAbsolutePath ??
+                false) &&
+            message.mediaUrl!.contains('http');
 
     final isLocalFile =
         File(message.mediaUrl ?? AppStrings.emptyString).existsSync();
